@@ -1,0 +1,99 @@
+body{
+  /*background: #ccc url('../img/boxed-bg-login-min.jpg') top center no-repeat;*/
+  background: #ccc url('../img/boxed-bg-login-min.jpg') no-repeat center center fixed;
+  position: relative !important;    
+  height: auto !important;    
+  min-height: 100% !important;    
+  -webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
+  background-size: cover !important;
+}
+
+.login-page {
+  width: 327px;
+  margin: 10% auto;
+  box-shadow: 6px 6px 6px #666;
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 327px;
+  padding: 25px 37px 40px 37px;
+  text-align: center;  
+}
+.form .btn{
+  background: #4C028B !important;
+  padding: 12px 12px !important;
+  border-radius: 8px 8px !important;
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #E6E6E6;
+  width: 100%;
+  border: 0;
+  margin: 0 0 10px;
+  font-size: 12px !important;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  color: #FFFFFF;  
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  font-size: 12px !important;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}

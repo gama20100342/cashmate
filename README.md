@@ -1,3 +1,1 @@
 # cashmate
-
-PHPCake Application

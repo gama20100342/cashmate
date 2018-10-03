@@ -4,7 +4,7 @@
 	$file = fopen("php://memory", "w");
 	fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 	fputcsv($file, array("BINANGONAN RURAL BANK"), "\t");
-	fputcsv($file, array("BILLS PAYMENT SUMMARY"), "\t");
+	fputcsv($file, array("CARD HOLDER ACTIVITY"), "\t");
 	fputcsv($file, array(""), "\t");
 	fputcsv($file, array("PRINT DATE", date('Y-m-d h:i:s')."\r"));	
 	fputcsv($file, array(""), "\t");

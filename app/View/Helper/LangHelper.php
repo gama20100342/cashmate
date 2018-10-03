@@ -375,12 +375,12 @@ class LangHelper extends Helper{
 	public function index_header($type){
 		$headers = array(
 			'applications' => array(				
-				'Reference #',						
+				'Application ID',						
 				'Registration Date',				
-				'Processed By',				
+				//'Processed By',				
 				'Processed Date',				
 				'Purpose',						
-				'Card Type',						
+				'Card Holder',						
 				'Status',						
 				'Action'
 			),
@@ -628,7 +628,7 @@ class LangHelper extends Helper{
 		$headers = array(	
 			"card_activated" => array(
 				'CARD NUMBER',
-				'EMBOSSED NAME',
+				'CARDHOLDER NAME',
 				'PRODUCT',
 				'AGENT',
 				'DATE AND TIME',
@@ -636,7 +636,7 @@ class LangHelper extends Helper{
 			),
 			"card_blocked" => array(
 				'CARD NUMBER',
-				'EMBOSSED NAME',
+				'CARDHOLDER NAME',
 				'PRODUCT',
 				'AGENT',
 				'DATE AND TIME',

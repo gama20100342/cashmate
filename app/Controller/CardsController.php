@@ -1045,6 +1045,19 @@ class CardsController extends AppController {
 		}
 	}
 	
+	private function getAvailablePregenCards($product, $institution){
+		$this->loadModel('Cardpregen');
+		$this->Cardpregen->recursive=-1;
+		$cards = $this->Cardpregen->find('all', array(
+			'conditions' => array(
+				'Cardpregen.status' => 0
+			)
+		));
+		
+		return $cards;		
+	}
+	
+	
 	public function add($cardholder_id=null, $cardholder_ref=null, $org_stat=null) {
 		
 		if(empty($cardholder_id) || empty($cardholder_ref) || !$this->Card->Cardholder->exists($cardholder_id)){
@@ -1071,39 +1084,32 @@ class CardsController extends AppController {
 		
 		if ($this->request->is('post')) {
 				
-				if(isset($this->data['Card']['cardno_4']) && !empty($this->data['Card']['cardno_4'])){
-					$cardno = $this->data['Card']['cardno_1'] .''. $this->data['Card']['cardno_2'] .''. $this->data['Card']['cardno_3'] .''. $this->data['Card']['cardno_4'];
-				
-				
-					$this->Card->create();			
-				//if ($this->Card->save($this->request->data)) {
+				//if(isset($this->data['Card']['cardno_4']) && !empty($this->data['Card']['cardno_4'])){
 					
 					
-					//send the pin via SMS and email
-					
-					/*
-					if($this->Cardholder->Card->Cardapplication->save(
-						array(
-							'Cardapplication' => array(
-								'cardno' 		=> $cardno,
-								'cardstatus_id' => $this->data['Cardholder']['cardstatus_id'],
-								'user_id'		=> $this->Auth->user('id'),
-								'terminal_id'	=> $this->Auth->user('terminal_id'),
-								'refid'			=> $this->data['Cardholder']['refid']
-							)
-						))){
-							
-							
-							$holder = $this->getCardHolderByRefId($this->data['Cardholder']['refid']);
-							$application = $this->getApplicationByRefId($this->data['Cardholder']['refid']);
-				
-							if(empty($holder)){
-								throw new NotFoundException(__('Unable to get card holder details, please contact the system administrator'));
-							}*/
-							
-							
-							if($this->Card->save(
-								array(
+					if(isset($this->data['Card']['_cardno']) && !empty($this->data['Card']['_cardno'])){
+						$cardno = $this->data['Card']['_cardno'];
+						
+						$data  = array(
+									'Card'	=> array(										
+										'cardholder_id'		 => $this->data['Card']['_cardholder_id'],
+										'product_id'		 => $this->data['Card']['_product_id'],
+										'cardno'			 => $cardno,
+										//'cardstatus_id'		 => $this->data['Card']['cardstatus_id'],
+										'cardstatus_id'		 => 2, //pending status,													
+										'pincode'			 => $this->data['Card']['_pin_clone'],
+										'balance'			 => 0,
+										'currency_id'		 => '1',
+										'refid'				 => $this->data['Card']['_refid'],
+										'processed_by'		 => $this->data['Card']['_processed_by'],
+										'registration'		 => date('Y-m-d h:i:s'),
+										'modified'		 	 => date('Y-m-d h:i:s')
+									)
+								);
+								
+					}else{
+						$cardno = $this->data['Card']['cardno_1'] .''. $this->data['Card']['cardno_2'] .''. $this->data['Card']['cardno_3'] .''. $this->data['Card']['cardno_4'];
+						$data  = array(
 									'Card'	=> array(										
 										'cardholder_id'		 => $this->data['Card']['cardholder_id'],
 										'product_id'		 => $this->data['Card']['product_id'],
@@ -1120,41 +1126,54 @@ class CardsController extends AppController {
 										'refid'				 => $this->data['Card']['refid'],
 										'processed_by'		 => $this->data['Card']['processed_by'],
 										'registration'		 => date('Y-m-d h:i:s'),
-										'modified'		 	 => date('Y-m-d')
+										'modified'		 	 => date('Y-m-d h:i:s')
 									)
-							))){
-							
-								/*$this->Session->setFlash($this->Message->showMsg('success_save_normal_data'), 'success_message');
+								);
 								
-							}else{
-								
-								//$this->Session->setFlash($this->Message->showMsg('cardholder_second_save'), 'info_message');	
-								$this->Message->msgError("Unable card details, please contact the system administrator");
-							}
-						
-					}else{
-					
-						$this->Message->msgError("Unable card application details, please contact the system administrator");
-					}*/
-					
-					$this->Message->msgSuccess("Registration complete.");
-					return $this->redirect(array('controller' => 'cardholders', 'action' => 'add', 'new'));			
-					} else {
-						$this->Session->setFlash($this->Message->showMsg('error_save_normal_data'), 'error_message');
-						$ds_cardholder->rollback();
+									echo "no data";
 					}
-				}else{
+				
+				
+							$this->Card->create();									
+							if($this->Card->save($data)){
+								if(isset($this->data['Card']['_cardno']) && !empty($this->data['Card']['_cardno'])){									
+									if($this->updateCardGen($this->data['Card']['_cardno'])){
+										$this->Message->msgSuccess("Registration complete.");	
+									}else{
+										$this->Message->msgSuccess("Registration complete. But unable to update the pre-generated card");	
+									}
+								}else{								
+									$this->Message->msgSuccess("Registration complete.");
+								}
+								return $this->redirect(array('controller' => 'cardholders', 'action' => 'add', 'new'));			
+							} else {
+								$this->Session->setFlash($this->Message->showMsg('error_save_normal_data'), 'error_message');
+								$ds_cardholder->rollback();
+							}
+			/*	}else{
 					$this->Message->msgError("Card registration not complete, invalid check digit.");
-				}
+				}*/
 		
 		}
 				
 		//$cardstatuses = $this->Card->Cardstatus->find('list');		
 		$cardtypes = $this->Card->Cardtype->find('list', array('conditions' => array('Cardtype.id' => 2)));
+		$_cardtypes = $this->Card->Cardtype->find('list', array('conditions' => array('Cardtype.id' => 1)));
 		$products = $this->Card->Product->find('list', array('order' => array('Product.id' => 'ASC')));
 		$institutions = $this->Card->Institution->find('list', array('order' => array('Institution.id' => 'ASC')));
+		//$this->set('pregens', $this->getAvailablePregenCards());
 		//$this->set(compact('cardtypes', 'cardstatuses', 'products'));
-		$this->set(compact('cardtypes', 'products', 'institutions'));
+		$this->set(compact('cardtypes', 'products', 'institutions', '_cardtypes'));
+	}
+	
+	private function updateCardGen($cardno){
+		$this->loadModel('Cardpregen');
+		//$this->Cardpregen->recursive=-1;
+		if($this->Cardpregen->updateAll(array("status"=> 1),array("cardno"=> $cardno))){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public function add_card_account($id, $firstname, $lastname, $refid){
@@ -1281,6 +1300,18 @@ class CardsController extends AppController {
 			return false;
 		}
 	}		
+	
+	private function checkPregenExists($fields){
+		$this->loadModel('Cardpregen');		
+		$this->Cardpregen->recursive =-1;
+		$card = $this->Cardpregen->find('first', array('conditions' => array($fields)));
+		
+		if(!empty($card)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	public function updateCardStatusViaForm(){
 		$response = array();
@@ -1508,6 +1539,8 @@ class CardsController extends AppController {
 		$this->set('author', $this->getTheAuthor());
 	}
 	
+	
+	
 	private function cardDontExists($cardno){
 		$this->Card->recursive=-1;
 		$card = $this->Card->findByCardno($cardno);
@@ -1620,6 +1653,206 @@ class CardsController extends AppController {
 		//}
 		
 	}
+	
+	
+	public function upload_pregenerated(){
+		
+		$this->loadModel('Uploadpregeneratecard');
+		$this->loadModel('Cardpregen');
+		
+		if ($this->request->is('ajax')) {
+			$this->layout 		= 'ajax';
+			$this->view  		= false;
+			$this->autoRender 	= false;
+			$_sdata 			= array();
+			$_ssdata 			= array();
+			$uid_key 			= strtoupper($this->Common->generateRandomString(6));
+			$_tabledata 		= array();
+			$status 			= '<span class="text-success">New Card ( Registered )</span>';
+			
+			if(isset($_FILES["csvfile"])){
+							$error = $_FILES["csvfile"]["error"];						
+							if($error){							
+								$response = array(
+									'status' => 400,
+									'message' => "Unable to process your request please try again."
+								);
+								
+							}else{
+								if(!is_array($_FILES["csvfile"]["name"])){
+									$fileName 		= $_FILES["csvfile"];										
+									//$extension 		= pathinfo($fileName['name'], PATHINFO_EXTENSION);
+									//$new_file_name   = 'pre_generated_'.date('Y-m-d-h-s').'_'.$this->Auth->user('username');
+									$new_file_name   = 'PRE_GENERATED'.$uid_key;
+									
+									
+									if($this->Upload->RenameandUpload($fileName, $new_file_name, "csv")){											
+										$new_file = APP.'webroot/Uploads/'.date('Y').'/'.date('m').'/'.$new_file_name.".csv";
+										
+										$_data = array(
+											'Uploadpregeneratecard' => array(
+												'user_id' => $this->Auth->user('id'),
+												'path'	  => 'webroot/Uploads/'.date('Y').'/'.date('m').'/'.$new_file_name.".csv",
+												'date_time' => date('Y-m-d H:i:s')
+											)
+										);
+														
+										if($this->Uploadpregeneratecard->save($_data)){										
+											$row = 0;											
+											if (($handle = fopen($new_file, "r")) !== FALSE) {
+												while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+													$num = count($data);												
+													$row++;
+													if($row > 1){ // do not include the header name	
+														if(!empty($data[0])){
+															$check_data = array(
+																'Cardpregen.cardno' => str_replace("-", "", $data[0])
+															);
+															
+															
+															if(!$this->checkPregenExists($check_data)){
+																
+																$new_data[] = array(
+																	/*'Card'	=> array(										
+																		'institution_id'	 => $this->data['Card']['institution_id'],
+																		'product_id'		 => $this->data['Card']['product_id'],
+																		'cardno'			 => str_replace("-", "", $data[0]),																		
+																		'cardstatus_id'		 => 2, //pending status,																			
+																		'cardtype_id'		 => $this->data['Card']['cardtype_id'],
+																		'pincode'			 => $data[1],
+																		'balance'			 => 0,
+																		'currency_id'		 => '1',
+																		//'refid'				 => $this->data['Card']['refid'],
+																		'processed_by'		 => $this->Auth->user('username'),
+																		'registration'		 => date('Y-m-d H:i:s')																		
+																	)*/
+																	
+																	'Cardpregen'	=> array(										
+																		'user_id'	 		 => $this->Auth->user('id'),
+																		'cardno'			 => str_replace("-", "", $data[0]),			
+																		'pincode'			 => $data[1],			
+																		'cardtype'		 	 => $this->data['Cardpregen']['cardtype_id'],
+																		'product'		 	 => $this->data['Cardpregen']['product_id'],
+																		'institution'	 	 => $this->data['Cardpregen']['institution_id'],
+																		'date_time'			 => date('Y-m-d H:i:s'),			
+																		'status'			 => 0																																	
+																																	
+																	)
+																	
+																);
+															}else{
+																$status = '<span class="text-danger">Card No. Already Exists.</span>';
+																$existing_data[] = array(
+																	/*'Card'	=> array(										
+																		'institution_id'	 => $this->data['Card']['institution_id'],
+																		'product_id'		 => $this->data['Card']['product_id'],
+																		'cardno'			 => str_replace("-", "", $data[0]),																		
+																		'cardstatus_id'		 => 2, //pending status,																			
+																		'cardtype_id'		 => $this->data['Card']['cardtype_id'],
+																		'pincode'			 => $data[1],
+																		'balance'			 => 0,
+																		'currency_id'		 => '1',
+																		//'refid'				 => $this->data['Card']['refid'],
+																		'processed_by'		 => $this->Auth->user('username'),
+																		'registration'		 => date('Y-m-d H:i:s')
+																	)*/
+																	'Cardpregen'	=> array(										
+																		'user_id'	 		 => $this->Auth->user('id'),
+																		'cardno'			 => str_replace("-", "", $data[0]),			
+																		'pincode'			 => $data[1],			
+																		'cardtype'		 	 => $this->data['Cardpregen']['cardtype_id'],
+																		'product'		 	 => $this->data['Cardpregen']['product_id'],
+																		'institution'	 	 => $this->data['Cardpregen']['institution_id'],
+																		'date_time'			 => date('Y-m-d H:i:s'),			
+																		'status'			 => 0																																	
+																																	
+																	)
+																	
+																);
+															}
+															
+															$_tabledata[] = array(
+																	$data[0],
+																	$status
+															);
+														}
+													}
+												}
+												
+												
+												fclose($handle);
+												
+													if(!empty($new_data)){
+														if($this->Cardpregen->saveAll($new_data)){
+															$response = array(
+																'status' 	=> 200,
+																'message' 	=> "File has been uploaded and all the data has been processed.",
+																'_data' 	=> $_tabledata
+															);
+														}else{
+															$response = array(
+																'status' 	=> 200,
+																'message' 	=> "File has been uploaded but unable to processed the data",
+																'_data' 	=> $_tabledata																
+																						
+															);
+														}
+													}else{
+														$response = array(
+															'status' 	=> 200,
+															'message' 	=> "File has been uploaded but no data found on the file.",
+															'_data' 	=> $_tabledata
+														);	
+													}
+												
+											}else{
+												$response = array(
+													'status' 	=> 400,
+													'message' 	=> "Unable to extract the file." .$new_file							
+												);
+											}
+
+										}else{
+											$response = array(
+												'status' => 400,
+												'message' => "There was an error while uploading the file, please try again."
+											);	
+										}
+									
+									
+								
+									}else{
+										$response = array(
+											'status' => 400,
+											'message' => "Unable to process your request please try again."
+										);
+									}
+									
+								}else{
+									$response = array(
+											'status' => 400,
+											'message' => "Unable to read the file, please try again."
+										);
+								}
+							}	
+			
+				}else{
+					$response = array(
+											'status' => 400,
+											'message' => "Unable to process your request please try again."
+										);
+				}
+				
+				return json_encode($response);
+		}else{
+			$cardtypes = $this->Card->Cardtype->find('list', array('conditions' => array('Cardtype.id' => 1)));
+			$products = $this->Card->Product->find('list', array('order' => array('Product.id' => 'ASC')));
+			$institutions = $this->Card->Institution->find('list', array('order' => array('Institution.id' => 'ASC')));			
+			$this->set(compact('cardtypes', 'products', 'institutions'));
+		}
+		
+	}
+	
 
 /**
  * delete method

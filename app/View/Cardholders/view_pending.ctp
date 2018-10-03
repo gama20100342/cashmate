@@ -1,7 +1,8 @@
 <?php //echo $this->App->CommonHeader('Card Holder Information'); ?>
 <?php echo $this->App->CommonHeaderWithButton(
 	'Update Account Information',
-		$this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']).
+		//$this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']).
+		
 		$this->App->Showbutton(
 			'Back', 
 			'btn-violet pull-right fs-10', 
@@ -14,7 +15,13 @@
 					"cardholders", 
 					'edit/'.$cardholder['Cardholder']['id'],
 					'edit'
-				)		
+				).
+		$this->App->ShowbuttonAjax(
+							'Approved Application', 
+							'btn btn-violet pull-right m-l-3 fs-10 holder_status', 						
+							'check',
+							$this->webroot.'cardholders/updateCardStatus/1/'.$cardholder['Cardholder']['refid'].'/'.$cardholder['Cardholder']['id'].'/1'
+						)
 	);
 ?>
 
@@ -193,9 +200,8 @@
 					<div class="col-md-4 nopadding-right">			
 						<div class="panel panel-default noradius">
 							<div class="panel-heading">Scanned ID</div>
-							<div class="panel-body fs-12">
-								<?php //echo $cardholder['Cardholderid']['path']; ?>
-								<img src="<?php echo $this->webroot.'app/webroot/img/'.$cardholder['Cardholderid']['path']; ?>" class="img-responsive text-center"/>
+							<div class="panel-body fs-12">								
+								<img src="<?php echo $this->webroot.'app/webroot/'.$cardholder['Cardholderid']['path']; ?>" class="img-responsive text-center"/>
 								
 							</div>
 						</div>
@@ -214,7 +220,7 @@
 		<div class="clear"></div>
 		
 		<div class="btn-group m-b-20">
-			<?php echo $this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']); ?>
+			<?php //echo $this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']); ?>
 		</div>		
 		
 		

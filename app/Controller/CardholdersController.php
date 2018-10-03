@@ -920,7 +920,7 @@ class CardholdersController extends AppController {
 					$cardapplication = array(
 						'Cardapplication' => array(
 							'refid' => $this->data['Cardholder']['refid'],
-							'cardtype_id' => 2,
+							'cardtype_id' => 0,
 							'registration' => $this->data['Cardholder']['registration'],
 							'processed_by' => $this->data['Cardholder']['processed_by'],
 							'processed_date' => $this->data['Cardholder']['processed_date'],
@@ -930,9 +930,9 @@ class CardholdersController extends AppController {
 					);
 					
 					if($this->Cardholder->Cardapplication->save($cardapplication)){
-						$this->Message->msgSuccess("New Account has been successfully added");
+						$this->Message->msgSuccess("New Account has been successfully registered, please upload the scanned id.");
 					}else{
-						$this->Message->msgSuccess("New Account has been successfully added. But was not tagged as new application");
+						$this->Message->msgSuccess("New Account has been successfully registered. But was not tagged as New Application");
 					}
 					/*
 					if($this->Cardholder->Card->Cardapplication->save(

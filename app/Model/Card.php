@@ -37,7 +37,7 @@ class Card extends AppModel {
  */
 	public $validate = array(
 	
-		'cardholder_id' => array(
+		/*'cardholder_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -46,7 +46,7 @@ class Card extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-		),
+		),*/
 		'cardno' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
@@ -64,7 +64,7 @@ class Card extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			)
-		),
+		)/*,
 		'cardstatus_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -104,7 +104,7 @@ class Card extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-		),
+		),*/
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed

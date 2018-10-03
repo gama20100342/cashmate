@@ -21,12 +21,11 @@
 	<?php echo $this->App->tHead($this->Lang->index_header('applications')); ?>	
 	<?php foreach ($cardapplications as $key => $app): ?>
 		<tr>			
-			<td><?php echo $app['Cardapplication']['refid']; ?></td>							
-			<td><?php echo $app['Cardapplication']['registration']; ?></td>							
-			<td><?php echo $app['Cardapplication']['processed_by']; ?></td>							
+			<td><?php echo $app['Cardholder']['cif_no']; ?></td>							
+			<td><?php echo $app['Cardapplication']['registration']; ?></td>										
 			<td><?php echo $app['Cardapplication']['processed_date']; ?></td>							
 			<td><?php echo $app['Cardapplication']['purpose']; ?></td>																									
-			<td><?php echo $app['Cardtype']['name']; ?></td>																									
+			<td><?php echo $app['Cardholder']['fullname']; ?></td>																									
 			<td><?php echo $this->App->showStatus($app['Cardapplication']['status']); ?></td>							
 			<td class="actions">				
 				<?php 
@@ -40,7 +39,7 @@
 										data-target="#view_card_detail_"										
 										class="fs-10 card-link-modal nooutline td_'.$app['Cardholder']['id'].'"><i class="fas fa-eye fa-lg"></i></a>'; 
 					*/
-				echo $this->App->btnLink('View', 'view', 'cardholders', 'view_pending', $app['Cardholder']['id']); ?>							
+				echo $this->App->btnLink('Approved Application', 'approved', 'cardholders', 'view_pending', $app['Cardholder']['id']); ?>							
 				<?php echo $this->App->btnLink('Edit', 'edit', 'cardholders', 'edit', $app['Cardholder']['id']); ?>			
 				<?php //echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $app['Cardapplication']['id']), array(), __('Are you sure you want to delete # %s?', $group['Group']['id'])); ?>
 			</td>
@@ -68,7 +67,7 @@
 					"scrollCollapse": false,
 					"lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
 					"columnDefs": [{
-							"targets": [6,7],
+							"targets": [5, 6],
 							"orderable": false
 					}],
 					"bStateSave": false, 

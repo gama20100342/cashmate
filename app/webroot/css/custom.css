@@ -289,7 +289,7 @@ Footer
 	outline: none !important;
 	padding: 5px 10px !important; 
 }
-
+.choose-cardbtn{min-width: 200px !important; width: 200px !imporant; text-align: center;}
 .alert-success{color: #00A65A  !important; background: transparent !important; border-left: 5px solid #00A65A !important; border-bottom: 1px solid #00A65A !important;}
 .alert-danger{color: #DD4B39  !important; background: transparent !important; border-left: 5px solid #DD4B39 !important; border-bottom: 1px solid #DD4B39 !important;}
 

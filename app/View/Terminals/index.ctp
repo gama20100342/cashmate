@@ -34,7 +34,7 @@
 	<div class="col-md-12 nopadding">
 		<?php echo $this->App->tHead(array(
 			'Name', 
-			'Device No.', 
+			'Terminal No.', 
 			'Model No.', 
 			'Local Port', 
 			'Keys', 

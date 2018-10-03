@@ -61,14 +61,14 @@
 						'label' => 'Username *', 
 						'wrapper' => 'col-md-3 nopadding',
 						'class'	=> '',						
-						'note' => 'Username should be at least 6 alphanumeric characters and all uppercase'
+						'n' => 'Username should be at least 6 alphanumeric characters and all uppercase'
 					),
 					array(
 						'input' => 'password', 
-						//'default' => $pass, 
-						'type' => 'text', 
+						'default' => 'Brbdigital@1', 
+						'type' => 'password', 
 						'label' => 'Password *', 
-						'note' => 'Password should be at least 8  alphanumeric characters with one (1) special character and one ( 1 ) upper case', 
+						'n' => 'Password should be at least 8  alphanumeric characters with one (1) special character and one ( 1 ) upper case', 
 						'wrapper' => 'col-md-3 nopadding', 'clear' => 1
 					),															
 					//array('input' => 'pass_expire_dummy', 'default' => $this->App->getTheDateAfter("+30 days", date('Y-m-d')), 'label' => 'Password Expires On *', 'class' => 'letters_and_numbers noborder', 'read-only' => true),

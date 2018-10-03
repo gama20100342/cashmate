@@ -33,10 +33,13 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-animations="fadeIn"><i class="fas fa-upload fa-lg"></i> Upload <span class="caret"></span></a>
 					<ul class="dropdown-menu noborder" role="menu">
-						<li><?php echo $this->App->pageLink('Batch Branches Registration', 'branches', 'upload_branches'); ?></li>					
-						<li class="separator-submenu"></li>
+						<li><?php echo $this->App->pageLink('Batch Branches Registration', 'branches', 'upload_branches'); ?></li>											
+						<li><?php echo $this->App->pageLink('Batch Account Registration', 'cardholders', 'upload_holders'); ?></li>											
 						<li><?php echo $this->App->pageLink('Existing Client Information', 'cardholders', 'upload_holders'); ?></li>					
 						<li class="separator-submenu"></li>
+						<li><?php echo $this->App->pageLink('Upload Card Activation', 'cards', 'uploadcard'); ?></li>										
+						<li><?php echo $this->App->pageLink('Upload Card Deactivation', 'cards', 'uploadcard'); ?></li>										
+						<li><?php echo $this->App->pageLink('Upload Pre-Generated Cards', 'cards', 'upload_pregenerated'); ?></li>										
 						<li><?php echo $this->App->pageLink('Card Reissuance', 'cards', 'upload_reissuance'); ?></li>					
 					</ul>
 			</li>
@@ -45,9 +48,7 @@
 					<ul class="dropdown-menu noborder" role="menu">
 						<li class="nodisplay"><?php echo $this->App->pageLink('Enroll New Account', 'cardholders', 'add'); ?></li>
 						<li><?php echo $this->App->pageLink('Manage Accounts', 'cardholders', 'index'); ?></li>																						
-						<li class="separator-submenu"></li>
-						<li><?php echo $this->App->pageLink('Upload Accounts', 'cardholders', 'uploadaccount'); ?></li>																												
-						<li class="nodisplay"><?php echo $this->App->pageLink('Pending / For Approval <span class="badge fs-8">100</span> ', 'cardholders', 'index'); ?></li>										
+						
 					</ul>
 			</li>
 			<li class="dropdown">
@@ -55,13 +56,12 @@
 					<ul class="dropdown-menu noborder" role="menu">										
 						<li><?php echo $this->App->pageLink('Manage Cards', 'cards', 'index'); ?></li>																
 						<li><?php echo $this->App->pageLink('Generate Perso File', 'cards', 'generate_perso'); ?></li>										
-						<li class="nodisplay"><?php echo $this->App->pageLink('Upload Customized Cards', 'cards', 'uploadcard'); ?></li>										
-						<li class="separator-submenu"></li>
-						<li><?php echo $this->App->pageLink('Upload Card Activation', 'cards', 'uploadcard'); ?></li>										
-						<li><?php echo $this->App->pageLink('Upload Card Deactivation', 'cards', 'uploadcard'); ?></li>										
+						<li class="nodisplay"><?php echo $this->App->pageLink('Upload Customized Cards', 'cards', 'uploadcard'); ?></li>																
 						<li class="separator-submenu"></li>
 						<li><?php echo $this->App->pageLink('Received Cards', 'cards', 'received_cards'); ?></li>										
 						<li class="nodisplay"><?php echo $this->App->pageLink('Pending / For Approval <span class="badge fs-8">100</span> ', 'cardholders', 'index'); ?></li>										
+						<li class="separator-submenu"></li>
+						<li><a href="#">Tag Card</a></li>																
 					</ul>
 			</li>
 				
@@ -115,6 +115,14 @@
 						
 						<li class="separator-submenu"></li>
 						<li class="dropdown">
+								<a href="#" 
+									class="" 											
+									data-title="All Approved Transactions"
+									data-url="<?php echo $this->webroot; ?>transbillspayments/generate_summary_report""
+								>All Approved Transactions</a>
+						</li>
+						<li class="dropdown">
+								
 								<a href="#">Approved Transactions<span class="caret"></span></a>
 								<ul class="dropdown-menu noborder noradius">
 									<li>
@@ -147,6 +155,13 @@
 								</ul>
 						</li>
 						<li class="dropdown">
+								<a href="#" 
+									class="" 											
+									data-title="All Rejected Transactions"
+									data-url="<?php echo $this->webroot; ?>transbillspayments/generate_summary_report""
+								>All Rejected Transactions</a>
+						</li>
+						<li class="dropdown">
 								<a href="#">Rejected Transactions<span class="caret"></span></a>
 								<ul class="dropdown-menu noborder noradius">
 									<li>
@@ -177,6 +192,13 @@
 										>Issuer</a>
 									</li>
 								</ul>
+						</li>
+						<li class="dropdown">
+								<a href="#" 
+									class="" 											
+									data-title="All Reversal Transactions"
+									data-url="<?php echo $this->webroot; ?>transbillspayments/generate_summary_report""
+								>All Reversal Transactions</a>
 						</li>
 						<li class="dropdown">
 								<a href="#">Reversal Transactions<span class="caret"></span></a>

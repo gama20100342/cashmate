@@ -77,7 +77,7 @@ class BranchesController extends AppController {
 														$num = count($data);
 														$row++;
 														if($row > 1){ // do not include the header name 
-															if($this->branchCodeDoesNotExist($data[1])){
+															/*if($this->branchCodeDoesNotExist($data[1])){
 																$new_data[] = array(
 																	'Branch' => array(																	
 																		'name' => $data[0], //name																						
@@ -103,7 +103,7 @@ class BranchesController extends AppController {
 																	)
 																);
 															}
-														}
+														}*/
 												}
 
 												fclose($handle);

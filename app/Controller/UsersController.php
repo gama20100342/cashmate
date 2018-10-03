@@ -187,14 +187,32 @@ class UsersController extends AppController {
 		$this->User->recursive =-1;		
 		$user = $this->User->findByUsername($username);
 		if(!empty($user)){
-			$this->User->id = $user['User']['id'];
-			$attempts = $user['User']['attempts'] + 1;
-			if($this->User->saveField('attempts', $attempts)){
-				
+			$this->User->id = $user['User']['id'];			
+			$attempts = $user['User']['attempts'];	
+			if($attempts >= 3){	
+				if($this->User->saveField('status_id', 4)){
+					if($this->saveAttempts($user['User']['username'], $user['User']['id'], "failed")){
+						return "Login failed. You have used all the attempts, your account has been locked, please contact the system administrator";
+					}else{
+						return "Login failed. You have used all the attempts.";
+					}
+				}else{
+					return "Login failed, you have used all the attempts.";
+				}
 			}else{
-				return false;
+				if($this->User->saveField('attempts', ($attempts + 1))){
+					if($this->saveAttempts($user['User']['username'], $user['User']['id'], "failed")){
+						return "Login failed. Please try again. You have used " .($attempts + 1)." out of 3 Attempts";
+					}else{
+						return "Login failed. Please try again.";
+					}
+				}else{
+					return "Login failed, please try again.";
+				}
 			}
-		}	
+		}else{
+			return "login failed, invalid credentials";
+		}
 	}
 	
 	private function saveAttempts($username, $id, $status){		
@@ -203,11 +221,11 @@ class UsersController extends AppController {
 						'user_id' 		=> $id,
 						'username' 		=> $username,
 						'date_time' 	=> date('Y-m-d H:i:s'),
-						'ip_address' 	=> $username,
+						'ip_address' 	=> $this->getTheIPAddress(),
 						'status' 		=> $status
 					)
 				);
-				
+				$this->User->Userattempt->create();
 				if($this->User->Userattempt->save($data)){
 					return true;
 				}else{
@@ -216,7 +234,71 @@ class UsersController extends AppController {
 	}
 	
 	private function getTheIPAddress(){
-		
+			// check for shared internet/ISP IP
+			if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
+				return $_SERVER['HTTP_CLIENT_IP'];
+			}
+
+			// check for IPs passing through proxies
+			if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+				// check if multiple ips exist in var
+				if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') !== false) {
+					$iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+					foreach ($iplist as $ip) {
+						if (validate_ip($ip))
+							return $ip;
+					}
+				} else {
+					if (validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
+						return $_SERVER['HTTP_X_FORWARDED_FOR'];
+				}
+			}
+			if (!empty($_SERVER['HTTP_X_FORWARDED']) && validate_ip($_SERVER['HTTP_X_FORWARDED']))
+				return $_SERVER['HTTP_X_FORWARDED'];
+			if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+				return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+			if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
+				return $_SERVER['HTTP_FORWARDED_FOR'];
+			if (!empty($_SERVER['HTTP_FORWARDED']) && validate_ip($_SERVER['HTTP_FORWARDED']))
+				return $_SERVER['HTTP_FORWARDED'];
+
+			// return unreliable ip since all else failed
+			return $_SERVER['REMOTE_ADDR'];
+	}
+	
+	private function validate_ip($ip) {
+		if (strtolower($ip) === 'unknown')
+			return false;
+
+		// generate ipv4 network address
+		$ip = ip2long($ip);
+
+		// if the ip is set and not equivalent to 255.255.255.255
+		if ($ip !== false && $ip !== -1) {
+			// make sure to get unsigned long representation of ip
+			// due to discrepancies between 32 and 64 bit OSes and
+			// signed numbers (ints default to signed in PHP)
+			$ip = sprintf('%u', $ip);
+			// do private network range checking
+			if ($ip >= 0 && $ip <= 50331647) return false;
+			if ($ip >= 167772160 && $ip <= 184549375) return false;
+			if ($ip >= 2130706432 && $ip <= 2147483647) return false;
+			if ($ip >= 2851995648 && $ip <= 2852061183) return false;
+			if ($ip >= 2886729728 && $ip <= 2887778303) return false;
+			if ($ip >= 3221225984 && $ip <= 3221226239) return false;
+			if ($ip >= 3232235520 && $ip <= 3232301055) return false;
+			if ($ip >= 4294967040) return false;
+		}
+		return true;
+	}
+
+	private function resetTheUserAttempts(){
+		$this->User->id = $this->Auth->user('id');
+		if($this->User->saveField('attempts', 0)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public function login() {
@@ -225,21 +307,28 @@ class UsersController extends AppController {
 			if ($this->Auth->login()) {
 				if(!$this->accountIsBlocked()){
 					//check if the account has no more attempts
-					if($this->passwordHasExpired()){
+					//reset the attempts
+					if($this->resetTheUserAttempts() && $this->saveAttempts($this->Auth->user('username'), $this->Auth->user('id'), "success")){
+						if($this->passwordHasExpired()){
+							$this->Message->msgError("Your pasword has expired, you must change it right now");
+							return $this->redirect(array('action' => 'changemypassword', $this->Auth->user('refid'), $this->Auth->user('id')));
+						}else{	
+							return $this->redirect(array('controller' => 'cards', 'action' => 'dashboard'));
+						}
+					}else{
 						$this->Message->msgError("Your pasword has expired, you must change it right now");
-						return $this->redirect(array('action' => 'changemypassword', $this->Auth->user('refid'), $this->Auth->user('id')));
-					}else{	
-						return $this->redirect(array('controller' => 'cards', 'action' => 'dashboard'));
+							return $this->redirect(array('action' => 'changemypassword', $this->Auth->user('refid'), $this->Auth->user('id')));
 					}
 				}else{
-					$this->Session->setFlash('Login failed. Your account has been blocked, please contact the system Administrator.', 'error_login');
+					$this->Session->setFlash('You have used all your login attempts, please contact the system Administrator.', 'error_login');
 					return $this->redirect($this->Auth->logout());
 				}
 			} else {
+				
 				//check the username then initiate account locks is successive 
 				//login failed
 				
- 				$this->Session->setFlash('Login failed. Invalid credentials.', 'error_login');
+ 				$this->Session->setFlash($this->InitiateLockAttempts($this->data['User']['username']), 'error_login');
 			}
 		}
 	}
@@ -701,6 +790,10 @@ class UsersController extends AppController {
 
 		}
 		
+		// Check for special characters
+		/*if (preg_match( '/[\W]/', $username ) ) {
+			$pmpro_setMessage = 'Username should not contain special character.';
+		}*/
 		
 		return $pmpro_setMessage;
 	}
@@ -829,7 +922,13 @@ class UsersController extends AppController {
 		
 			
 		if ($this->request->is(array('post', 'put'))) {
-			$pass_message = $this->strong_password_check($user['User']['username'], $this->data['User']['new_password']);
+			
+			if($this->data['User']['use_default']=="1"){
+				$pass_message = "";
+			}else{
+				$pass_message = $this->strong_password_check($user['User']['username'], $this->data['User']['new_password']);
+			}
+			
 			//$user_message = $this->strong_username_check($this->request->data['User']['username'], $this->data['User']['password']);
 			
 			//if(empty($user_message)){

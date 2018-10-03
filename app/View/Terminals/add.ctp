@@ -24,7 +24,7 @@
 ?>
 
 <div class="groups form col-md-12">
-	<div class="col-md-10 nopadding">
+	<div class="col-md-7 nopadding">
 <?php echo $this->Form->create('Terminal', array('class' => 'data-form', 'id' => 'new_terminal_form')); ?>
 	<fieldset>	
 	<h4 class="nopadding bold text-success nodisplay">Device No. <?php echo $deviceno; ?></h4>
@@ -42,13 +42,13 @@
 				'input' => 'deviceno', 
 				'label' => 'Device No.', 				
 				'class' => 'numbers_and_letters',
-				'wrapper' => 'col-md-6 nopadding'
+				'wrapper' => 'col-md-4 nopadding'
 			),
 			array(
 				'input' => 'name', 
 				'label' => 'Terminal Name', 				
 				'class' => 'numbers_and_letters',
-				'wrapper' => 'col-md-6 nopadding',
+				'wrapper' => 'col-md-8 nopadding',
 				'clear' => 1				
 			),
 			array(

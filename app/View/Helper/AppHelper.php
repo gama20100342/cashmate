@@ -50,7 +50,7 @@ class AppHelper extends Helper {
 	
 	public function showStatus($stat){
 		$strings = array(
-			"0" => '<span class="text-danger">Pending</span>',
+			"0" => '<span class="text-danger">For Approval</span>',
 			"1" => '<span class="text-success">Approved</span>'
 		);
 		
@@ -328,6 +328,7 @@ class AppHelper extends Helper {
         switch($icon){
             case "edit": $icon  = 'edit'; break;
             case "view": $icon  = 'eye';break;
+			case "approved": $icon  = 'check-circle';break;
             case "delete": $icon  = 'trash-alt';break;            
             default: $icon = 'edit'; break;
         }
@@ -351,13 +352,15 @@ class AppHelper extends Helper {
         $str = '';
         $str .='<table id="'.(isset($tableid) && !empty($tableid) ? $tableid : 'tableid').'" class="table fs-11 display">';
         $str .='<thead><tr>';
-            foreach($headers as $h):
-					if($h=="Action"){
-						 $str .='<th class="text-left text-violet" style="width: 8%;">'.ucwords($h).'</th>';
-					}else{                   
-						$str .='<th class="text-left text-violet">'.ucwords($h).'</th>';
-					}
-            endforeach;
+			if(!empty($headers) && (count($headers) > 0)){
+				foreach($headers as $h):
+						if($h=="Action"){
+							 $str .='<th class="text-left text-violet" style="width: 8%;">'.ucwords($h).'</th>';
+						}else{                   
+							$str .='<th class="text-left text-violet">'.ucwords($h).'</th>';
+						}
+				endforeach;
+			}
         $str .='</tr></thead><tbody>';
         return $str;
     }
@@ -497,7 +500,7 @@ class AppHelper extends Helper {
 						
 			break;
 			case "3":
-				$btn .= $this->ShowbuttonAjax(
+					$btn .= $this->ShowbuttonAjax(
 							'Activate', 
 							'btn btn-violet pull-left m-l-3 m-r-3 fs-9 holder_status', 						
 							'check',
@@ -579,13 +582,24 @@ class AppHelper extends Helper {
 			break;
 			case "2":
 			case "3":
+			/*inactive 3
+					- activate 2
+				*/
+				
+				$btn .= $this->ShowbuttonAjax(
+							'Activate', 
+							'btn btn-violet m-l-3 fs-10 holder_status', 						
+							'check',
+							$this->webroot.'users/updateStatus/1/'.$holder_ref.'/'.$holder_id.'/1'
+						);
+			break;
 			case "4":			
 				/*inactive 3
 					- activate 2
 				*/
 				
 				$btn .= $this->ShowbuttonAjax(
-							'Activate', 
+							'Unlock', 
 							'btn btn-violet m-l-3 fs-10 holder_status', 						
 							'check',
 							$this->webroot.'users/updateStatus/1/'.$holder_ref.'/'.$holder_id.'/1'
@@ -631,7 +645,7 @@ class AppHelper extends Helper {
 		   <li class="'.(isset($step) && $step=="3" ? 'current' : '').'">
 			<a href="#" title="">
 				<em class="fs-10">Step 3</em>
-				<span class="fs-12 bold">Generate Card</span>
+				<span class="fs-12 bold">Link Card</span>
 			</a>
 		  </li>
 		  

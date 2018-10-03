@@ -34,7 +34,7 @@
 
 <div class="users form col-md-12">
 	<fieldset>	
-			<h5 class="nopadding nomargin">Select The File to Upload</h5>
+				<h5 class="nopadding nomargin">Select The File to Upload</h5>
 				<div class="note fs-9 text-success">Allowed file ( csv )</div>					
 				<div class="col-md-12 nopadding text-left m-t-20">
 					<div id="fileuploader" class="pull-right">Upload</div>
@@ -47,7 +47,7 @@
 
 	</fieldset>
 	
-	<button type="button" class="m-b-20 submitpic btn btn-sm btn-success pull-right"><i class="fas fa-save fa-lg"></i> Upload & Save</button>
+	<button type="button" class="m-t-40 m-b-20 submitpic btn btn-sm btn-success pull-left"><i class="fas fa-save fa-lg"></i> Upload & Save</button>
 	<?php //echo $this->App->formEnd('SAVE', '#new_user_avatar'); ?>
 </div>
 <div class="clear"></div>

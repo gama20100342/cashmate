@@ -791,9 +791,9 @@ class UsersController extends AppController {
 		}
 		
 		// Check for special characters
-		/*if (preg_match( '/[\W]/', $username ) ) {
+		if (preg_match( '/[\W]/', $username ) ) {
 			$pmpro_setMessage = 'Username should not contain special character.';
-		}*/
+		}
 		
 		return $pmpro_setMessage;
 	}

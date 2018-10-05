@@ -625,7 +625,17 @@ class LangHelper extends Helper{
 	
 	public function report_header($type){
 		
-		$headers = array(	
+		$headers = array(
+			"terminal_transactions" => array(
+				'TERMINAL NUMBER',
+				'BALANCE INQUIRY TRANSACTION COUNT',
+				'CASH WITHDRAWAL TRANSACTION COUNT',
+				'BILLS PAYMENT TRANSACTION COUNT',
+				'CASH OUT TRANSACTION COUNT',
+				'CASH LOAD TRANSACTION COUNT',
+				'FUND TRANSFER TRANSACTION COUNT',
+				'PURCHANSE TRANSACTION COUNT'
+			),
 			"card_activated" => array(
 				'CARD NUMBER',
 				'CARDHOLDER NAME',
@@ -810,6 +820,24 @@ class LangHelper extends Helper{
 			case "approved_trans_onus":
 				$_fl = 'BRB_Approved_Transaction_ONUS_';
 			break;
+			case "approved_trans_per_terminal":
+				$_fl = 'BRB_Approved_Transaction_Per_Terminal_';
+			break;
+			case "approved_alltrans":
+				$_fl = 'BRB_Approved_Transactions_';
+			break;
+			case "rejected_alltrans":
+				$_fl = 'BRB_Rejected_Transactions_';
+			break;
+			case "rejected_trans_per_terminal":
+				$_fl = 'BRB_Rejected_Transaction_Per_Terminal_';
+			break;
+			case "reversal_alltrans":
+				$_fl = 'BRB_Reversal_Transactions_';
+			break;
+			case "reversal_trans_per_terminal":
+				$_fl = 'BRB_Reversal_Transaction_Per_Terminal_';
+			break;
 			case "approved_trans_acquirer":
 				$_fl = 'BRB_Approved_Transaction_Acquirer_';
 			break;
@@ -937,27 +965,112 @@ class LangHelper extends Helper{
 	}
 	
 	
+	public function listOfController_final(){
+		$string = array(			
+			"Cardholder" => array(
+				"add" 		=> "Enroll New Account",
+				"edit"		=> "Update Account",
+				"view" 		=> "View Account",
+				"approved" 	=> "Approved account",				
+				"search" 	=> "Search"
+			),
+			"Card" => array(
+				"view" 		 => "View Card Details",
+				"generate"	 => "Generate Perso File",
+				"activate" 	 => "Activate",
+				"deactivate" => "Deactivate",
+				"block"		 => "Block",
+				"search" 	 => "Search",
+				"add"		=> "link card"
+			),
+			"Reports" => array(
+				"main_report" 		=> "Main Report",
+				"approved_trans" 	=> "Approved Transactions",
+				"rejectd_trans" 	=> "Rejected Transactions",
+				"reversal_trans" 	=> "Reversal Transactions",
+				"bills_trans" 		=> "Bills Payment",
+				"fund_trans" 		=> "Interbank Fund Transfer",
+				"cardholder_trans" 	=> "Card Holder Activity",
+				"activated_cards" 	=> "List of Activated Cards",
+				"blocked_cards" 	=> "List of Blocked Cards",
+				"expired_cards" 	=> "List of Expired Cards",
+				"expired_summary" 	=> "Summary of Expired Cards",
+				"topup_trans" 		=> "Top-up Reports",
+				"credit_trans" 		=> "Credit Report",
+				"debit_trans" 		=> "Debit Report",
+				"total_balance" 	=> "Total Balances",
+				"mass_trans" 		=> "Mass Enrollment",
+				"audit_trail" 		=> "Audti Trail"
+			),
+			"BRB_Settings" => array(
+				"edit" 		 => "Modify"				
+			),
+			"Access_Settings" => array(
+				"add" 		 => "Register",
+				"edit" 		 => "Modify"				
+			),
+			"Product" => array(
+				"view" 		 => "View",
+				"add" 		 => "Register",				
+				"edit" 		 => "Modify",				
+				"approved" 	 => "Approved"				
+			),
+			"Terminal" => array(
+				"view" 		 => "View",
+				"add" 		 => "Register",				
+				"edit" 		 => "Modify",				
+				"approved" 	 => "Approved"				
+			),
+			"Branch" => array(
+				"view" 		 => "View",
+				"add" 		 => "Register",				
+				"edit" 		 => "Modify",				
+				"approved" 	 => "Approved"				
+			),
+			"Institution" => array(
+				"view" 		 => "View",
+				"add" 		 => "Register",				
+				"edit" 		 => "Modify",				
+				"approved" 	 => "Approved"				
+			),
+			"Account_Access" => array(
+				"add" 		 => "Add",
+				"view" 		 => "View",
+				"add" 		 => "Register",				
+				"lock" 	 	 => "Lock",				
+				"unlock" 	 => "Unlock",				
+				"reset" 	 => "Reset Password"								
+			),
+			"Profile" => array(
+				"view" 		 		=> "View Profile",
+				"changepassword" 	 => "Modify"			
+			)
+		);
+		
+		return $string;
+	}
+	
 	public function listOfControllers2(){
 		$string = array(			
 			'enrolled-customer' 			=> 'Enrolled Customer',			
-			'approved-application'  	=> 'Approved Customer Application',			
-			'client-information' 		=> 'Client Information',
-			'card-tagging'				=> 'Tagging of Cards',
-			'transaction-history'		=> 'Transaction History',
-			'receiving-cashcard' 		=> 'Receiving of Cash Card',
-			'reports-all'	 			=> 'Reports - All',
-			'account-settings'			=> 'Account Settings - Users',
-			'product-config'			=> 'Configuration of Products',
-			'terminal-config'			=> 'Configuration of Terminal',
-			'pending-application'		=> 'Pending Applications',
-			'batch-upload-crediting' 	=> 'Batch Upload - Crediting',
-			'batch-upload-debiting' 	=> 'Batch Upload - Debiting',
-			'batch-upload-loading'	 	=> 'Batch Upload - Loading',
-			'batch-upload-enroll' 		=> 'Batch Upload - Mass Enrollment',
-			'batch-upload-activate' 	=> 'Batch Upload - Mass Activation',
-			'batch-upload-deactivate' 	=> 'Batch Upload - Mass Deactivation',
-			'batch-upload-reissue'	 	=> 'Batch Upload - Reissuance of Card',
-			'auditrail' 				=> 'Audit Trail'
+			'approved-application'  		=> 'Approved Customer Application',			
+			'client-information' 			=> 'Client Information',
+			'card-tagging'					=> 'Tagging of Cards',
+			'transaction-history'			=> 'Transaction History',
+			'receiving-cashcard' 			=> 'Receiving of Cash Card',
+			'reports-all'	 				=> 'Reports - All',
+			'account-settings'				=> 'Account Settings - Users',
+			'product-config'				=> 'Configuration of Products',
+			'terminal-config'				=> 'Configuration of Terminal',
+			'pending-application'			=> 'Pending Applications',
+			'batch-upload-crediting' 		=> 'Batch Upload - Crediting',
+			'batch-upload-debiting' 		=> 'Batch Upload - Debiting',
+			'batch-upload-loading'	 		=> 'Batch Upload - Loading',
+			'batch-upload-enroll' 			=> 'Batch Upload - Mass Enrollment',
+			'batch-upload-activate' 		=> 'Batch Upload - Mass Activation',
+			'batch-upload-deactivate' 		=> 'Batch Upload - Mass Deactivation',
+			'batch-upload-reissue'	 		=> 'Batch Upload - Reissuance of Card',
+			'auditrail' 					=> 'Audit Trail'
 		);
 		
 		/*$new_arr = array();

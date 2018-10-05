@@ -115,14 +115,6 @@
 						
 						<li class="separator-submenu"></li>
 						<li class="dropdown">
-								<a href="#" 
-									class="" 											
-									data-title="All Approved Transactions"
-									data-url="<?php echo $this->webroot; ?>transbillspayments/generate_summary_report""
-								>All Approved Transactions</a>
-						</li>
-						<li class="dropdown">
-								
 								<a href="#">Approved Transactions<span class="caret"></span></a>
 								<ul class="dropdown-menu noborder noradius">
 									<li>
@@ -140,7 +132,7 @@
 											data-toggle="modal" 								
 											data-target="#_reports_date_modal"
 											data-title="Acquirer Approved Transactions"
-											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/acquirer/Approved""
+											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/acquirer/Approved"
 										>Acquirer</a>
 									</li>
 									<li>
@@ -149,17 +141,30 @@
 											data-toggle="modal" 								
 											data-target="#_reports_date_modal"
 											data-title="Issuer Approved Transactions"
-											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/issuer/Approved""
+											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/issuer/Approved"
 										>Issuer</a>
 									</li>
+									<li class="separator-submenu"></li>
+									<li>
+										<a href="#" 
+											class="" 
+											data-toggle="modal" 								
+											data-target="#_reports_date_modal"
+											data-title="Approved Transactions Per Terminal "
+											data-url="<?php echo $this->webroot; ?>terminals/generate_terminal_transreport/Approved"
+										>Per Terminal</a>
+									</li>
+									<li class="separator-submenu"></li>
+									<li>
+										<a href="#" 
+											class="" 
+											data-toggle="modal" 								
+											data-target="#_reports_date_modal"
+											data-title="All Transaction Type Approved Transactions"
+											data-url="<?php echo $this->webroot; ?>cards/generate_alltranstype/Approved"
+										>All Transaction Type</a>
+									</li>
 								</ul>
-						</li>
-						<li class="dropdown">
-								<a href="#" 
-									class="" 											
-									data-title="All Rejected Transactions"
-									data-url="<?php echo $this->webroot; ?>transbillspayments/generate_summary_report""
-								>All Rejected Transactions</a>
 						</li>
 						<li class="dropdown">
 								<a href="#">Rejected Transactions<span class="caret"></span></a>
@@ -179,7 +184,7 @@
 											data-toggle="modal" 								
 											data-target="#_reports_date_modal"
 											data-title="Acquirer Rejected Transactions"
-											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/acquirer/Rejected""
+											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/acquirer/Rejected"
 										>Acquirer</a>
 									</li>
 									<li>
@@ -188,17 +193,30 @@
 											data-toggle="modal" 								
 											data-target="#_reports_date_modal"
 											data-title="Issuer Rejected Transactions"
-											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/issuer/Rejected""
+											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/issuer/Rejected"
 										>Issuer</a>
 									</li>
+									<li class="separator-submenu"></li>
+									<li>
+										<a href="#" 
+											class="" 
+											data-toggle="modal" 								
+											data-target="#_reports_date_modal"
+											data-title="Rejected Transactions Per Terminal "
+											data-url="<?php echo $this->webroot; ?>terminals/generate_terminal_transreport/Rejected"
+										>Per Terminal</a>
+									</li>
+									<li class="separator-submenu"></li>
+									<li>
+										<a href="#" 
+											class="" 
+											data-toggle="modal" 								
+											data-target="#_reports_date_modal"
+											data-title="All Transaction Type Rejected Transactions"
+											data-url="<?php echo $this->webroot; ?>cards/generate_alltranstype/Rejected"
+										>All Transaction Type</a>
+									</li>
 								</ul>
-						</li>
-						<li class="dropdown">
-								<a href="#" 
-									class="" 											
-									data-title="All Reversal Transactions"
-									data-url="<?php echo $this->webroot; ?>transbillspayments/generate_summary_report""
-								>All Reversal Transactions</a>
 						</li>
 						<li class="dropdown">
 								<a href="#">Reversal Transactions<span class="caret"></span></a>
@@ -218,7 +236,7 @@
 											data-toggle="modal" 								
 											data-target="#_reports_date_modal"
 											data-title="Acquirer Reversal Transactions"
-											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/acquirer/Reversal""
+											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/acquirer/Reversal"
 										>Acquirer</a>
 									</li>
 									<li>
@@ -227,8 +245,28 @@
 											data-toggle="modal" 								
 											data-target="#_reports_date_modal"
 											data-title="Issuer Reversal Transactions"
-											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/issuer/Reversal""
+											data-url="<?php echo $this->webroot; ?>cards/generate_transaction_report/issuer/Reversal"
 										>Issuer</a>
+									</li>
+									<li class="separator-submenu"></li>
+									<li>
+										<a href="#" 
+											class="" 
+											data-toggle="modal" 								
+											data-target="#_reports_date_modal"
+											data-title="Reversal Transactions Per Terminal "
+											data-url="<?php echo $this->webroot; ?>terminals/generate_terminal_transreport/Reversal"
+										>Per Terminal</a>
+									</li>
+									<li class="separator-submenu"></li>
+									<li>
+										<a href="#" 
+											class="" 
+											data-toggle="modal" 								
+											data-target="#_reports_date_modal"
+											data-title="All Transaction Type Reversal Transactions"
+											data-url="<?php echo $this->webroot; ?>cards/generate_alltranstype/Reversal"
+										>All Transaction Type</a>
 									</li>
 								</ul>
 						</li>
@@ -404,6 +442,7 @@
 										
 						<li><?php echo $this->App->pageLink('BRB Settings', 'settings', 'edit', 1); ?></li>																		
 						<li><?php echo $this->App->pageLink('Access Security', 'groupaccesses', 'index'); ?></li>												
+						<li><?php echo $this->App->pageLink('Access Settings', 'groups', 'index'); ?></li>												
 						<li class="separator-submenu"></li>		
 						<li><?php echo $this->App->pageLink('Product', 'products', 'index'); ?></li>												
 						<li><?php echo $this->App->pageLink('Terminal', 'terminals', 'index'); ?></li>												

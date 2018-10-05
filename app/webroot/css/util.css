@@ -3020,6 +3020,10 @@
 .noradius-right{border-top-right-radius: 0 !important;}
 .noradius-bottom{border-bottom-right-radius: 0 !important;}
 .noborder{border: none !important;}
+.noborder-top{border-top: none !important;}
+.noborder-right{border-right: none !important;}
+.noborder-left{border-left: none !important;}
+.noborder-bottom{border-bottom: none !important;}
 .noshadow{box-shadow: 0 0 0 0 !important;}
 .nopadding{padding: 0 0 0 0 !important;}
 

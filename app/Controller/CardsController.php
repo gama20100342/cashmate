@@ -25,12 +25,415 @@ class CardsController extends AppController {
 		}
     }
 	
+	
+	
 	public function upload_reissuance(){
 		
 	}
 	
 	public function received_cards(){
 		
+	}
+	
+	public function generate_alltranstype($response, $date_from=null, $date_to=null){
+		
+		$this->layout = 'pdf';		
+		$this->view = 'generate_alltranstype_report';		
+		$this->set('date_from', $date_from);		
+		$this->set('date_to', $date_to);		
+		$this->set('response', $response);		
+		$this->set('title', !empty($date_from) && !empty($date_to) ? $date_from.' - '.$date_to : date('Y-m-d H:i:s'));
+
+		switch($response){
+			case "Approved": $filename = 'approved_alltrans'; break;
+			case "Rejected": $filename = 'rejected_alltrans'; break;
+			case "Reversal": $filename = 'reversal_alltrans'; break;		
+		}
+		
+		$this->set('filename', $filename);
+		
+		/*$this->layout = 'ajax';
+		$this->autoRender = false;
+		$this->view = false;*/
+		
+		$date_from 	= (isset($date_from) && !empty($date_from)) ? $date_from : '2018-07-01'; //date('Y-m-d');
+		$date_to 	= (isset($date_to) && !empty($date_to)) ? $date_to : '2018-10-10'; //date('Y-m-d');
+		$_onus = array();
+		$_acquirer = array();
+		$_issuer = array();
+		$__onus = array();
+		$__issuer = array();
+		$__acquirer = array();
+		
+		
+		$_onus = array(
+			"Purchase" 		=> $this->generate_alltranstype_report("On Us", $response, "Transpurchase", $date_from, $date_to),			
+			"Withdrawal" 	=> $this->generate_alltranstype_report("On Us", $response, "Transwithdrawal", $date_from, $date_to),			
+			"Cashout" 		=> $this->generate_alltranstype_report("On Us", $response, "Transcashout", $date_from, $date_to),			
+			"Loadcash" 		=> $this->generate_alltranstype_report("On Us", $response, "Transloadcash", $date_from, $date_to),			
+			"Balance" 		=> $this->generate_alltranstype_report("On Us", $response, "Transbalanceinquiry", $date_from, $date_to),			
+			"Fundtransfer" 	=> $this->generate_alltranstype_report("On Us", $response, "Transinterbank", $date_from, $date_to),			
+			"Billspayment" 	=> $this->generate_alltranstype_report("On Us", $response, "Transbillspayment", $date_from, $date_to)			
+		);
+		$_acquirer = array(
+			"Purchase" 		=> $this->generate_alltranstype_report("Acquirer", $response, "Transpurchase", $date_from, $date_to),			
+			"Withdrawal" 	=> $this->generate_alltranstype_report("Acquirer", $response, "Transwithdrawal", $date_from, $date_to),			
+			"Cashout" 		=> $this->generate_alltranstype_report("Acquirer", $response, "Transcashout", $date_from, $date_to),			
+			"Loadcash" 		=> $this->generate_alltranstype_report("Acquirer", $response, "Transloadcash", $date_from, $date_to),			
+			"Balance" 		=> $this->generate_alltranstype_report("Acquirer", $response, "Transbalanceinquiry", $date_from, $date_to),			
+			"Fundtransfer" 	=> $this->generate_alltranstype_report("Acquirer", $response, "Transinterbank", $date_from, $date_to),			
+			"Billspayment" 	=> $this->generate_alltranstype_report("Acquirer", $response, "Transbillspayment", $date_from, $date_to)			
+		);
+		
+		$_issuer = array(
+			"Purchase" 		=> $this->generate_alltranstype_report("Issuer", $response, "Transpurchase", $date_from, $date_to),			
+			"Withdrawal" 	=> $this->generate_alltranstype_report("Issuer", $response, "Transwithdrawal", $date_from, $date_to),			
+			"Cashout" 		=> $this->generate_alltranstype_report("Issuer", $response, "Transcashout", $date_from, $date_to),			
+			"Loadcash" 		=> $this->generate_alltranstype_report("Issuer", $response, "Transloadcash", $date_from, $date_to),			
+			"Balance" 		=> $this->generate_alltranstype_report("Issuer", $response, "Transbalanceinquiry", $date_from, $date_to),			
+			"Fundtransfer" 	=> $this->generate_alltranstype_report("Issuer", $response, "Transinterbank", $date_from, $date_to),			
+			"Billspayment" 	=> $this->generate_alltranstype_report("Issuer", $response, "Transbillspayment", $date_from, $date_to)			
+		);
+		
+
+		/*-------------
+		
+		| ON US
+		--------------*/
+		
+		
+		foreach($_onus["Purchase"] as $_t): 
+			$__onus[] = array(
+				"transdate" 			=> $_t["Transpurchase"]["transdate"],
+				"cardno" 				=> $_t["Transpurchase"]["cardno"],
+				"trace_number"			=> $_t["Transpurchase"]["trace_number"],
+				"transaction_type"		=> $_t["Transpurchase"]["transaction_type"],
+				"processing_code"		=> $_t["Transpurchase"]["processing_code"],
+				"channels"				=> $_t["Transpurchase"]["channels"],
+				"deviceno"				=> $_t["Transpurchase"]["deviceno"],
+				"response"				=> $_t["Transpurchase"]["response"],
+				"transaction_amount" 	=> $_t["Transpurchase"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_onus["Withdrawal"] as $_t): 
+			$__onus[] = array(
+				"transdate" 			=> $_t["Transwithdrawal"]["transdate"],
+				"cardno" 				=> $_t["Transwithdrawal"]["cardno"],
+				"trace_number"			=> $_t["Transwithdrawal"]["trace_number"],
+				"transaction_type"		=> $_t["Transwithdrawal"]["transaction_type"],
+				"processing_code"		=> $_t["Transwithdrawal"]["processing_code"],
+				"channels"				=> $_t["Transwithdrawal"]["channels"],
+				"deviceno"				=> $_t["Transwithdrawal"]["deviceno"],
+				"response"				=> $_t["Transwithdrawal"]["response"],
+				"transaction_amount" 	=> $_t["Transwithdrawal"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_onus["Cashout"] as $_t): 
+			$__onus[] = array(
+				"transdate" 			=> $_t["Transcashout"]["transdate"],
+				"cardno" 				=> $_t["Transcashout"]["cardno"],
+				"trace_number"			=> $_t["Transcashout"]["trace_number"],
+				"transaction_type"		=> $_t["Transcashout"]["transaction_type"],
+				"processing_code"		=> $_t["Transcashout"]["processing_code"],
+				"channels"				=> $_t["Transcashout"]["channels"],
+				"deviceno"				=> $_t["Transcashout"]["deviceno"],
+				"response"				=> $_t["Transcashout"]["response"],
+				"transaction_amount" 	=> $_t["Transcashout"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_onus["Loadcash"] as $_t): 
+			$__onus[] = array(
+				"transdate" 			=> $_t["Transloadcash"]["transdate"],
+				"cardno" 				=> $_t["Transloadcash"]["cardno"],
+				"trace_number"			=> $_t["Transloadcash"]["trace_number"],
+				"transaction_type"		=> $_t["Transloadcash"]["transaction_type"],
+				"processing_code"		=> $_t["Transloadcash"]["processing_code"],
+				"channels"				=> $_t["Transloadcash"]["channels"],
+				"deviceno"				=> $_t["Transloadcash"]["deviceno"],
+				"response"				=> $_t["Transloadcash"]["response"],
+				"transaction_amount" 	=> $_t["Transloadcash"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_onus["Balance"] as $_t): 
+			$__onus[] = array(
+				"transdate" 			=> $_t["Transbalanceinquiry"]["transdate"],
+				"cardno" 				=> $_t["Transbalanceinquiry"]["cardno"],
+				"trace_number"			=> $_t["Transbalanceinquiry"]["trace_number"],
+				"transaction_type"		=> $_t["Transbalanceinquiry"]["transaction_type"],
+				"processing_code"		=> $_t["Transbalanceinquiry"]["processing_code"],
+				"channels"				=> $_t["Transbalanceinquiry"]["channels"],
+				"deviceno"				=> $_t["Transbalanceinquiry"]["deviceno"],
+				"response"				=> $_t["Transbalanceinquiry"]["response"],
+				"transaction_amount" 	=> $_t["Transbalanceinquiry"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_onus["Fundtransfer"] as $_t): 
+			$__onus[] = array(
+				"transdate" 			=> $_t["Transinterbank"]["transdate"],
+				"cardno" 				=> $_t["Transinterbank"]["cardno"],
+				"trace_number"			=> $_t["Transinterbank"]["trace_number"],
+				"transaction_type"		=> $_t["Transinterbank"]["transaction_type"],
+				"processing_code"		=> $_t["Transinterbank"]["processing_code"],
+				"channels"				=> $_t["Transinterbank"]["channels"],
+				"deviceno"				=> $_t["Transinterbank"]["deviceno"],
+				"response"				=> $_t["Transinterbank"]["response"],
+				"transaction_amount" 	=> $_t["Transinterbank"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_onus["Billspayment"] as $_t): 
+			$__onus[] = array(
+				"transdate" 			=> $_t["Transbillspayment"]["transdate"],
+				"cardno" 				=> $_t["Transbillspayment"]["cardno"],
+				"trace_number"			=> $_t["Transbillspayment"]["trace_number"],
+				"transaction_type"		=> $_t["Transbillspayment"]["transaction_type"],
+				"processing_code"		=> $_t["Transbillspayment"]["processing_code"],
+				"channels"				=> $_t["Transbillspayment"]["channels"],
+				"deviceno"				=> $_t["Transbillspayment"]["deviceno"],
+				"response"				=> $_t["Transbillspayment"]["response"],
+				"transaction_amount" 	=> $_t["Transbillspayment"]["transaction_amount"]
+			);
+		endforeach;
+		
+		
+		/*-------------
+		
+		| ACQUIRER
+		--------------*/
+		
+		
+		foreach($_acquirer["Purchase"] as $_t): 
+			$__acquirer[] = array(
+				"transdate" 			=> $_t["Transpurchase"]["transdate"],
+				"cardno" 				=> $_t["Transpurchase"]["cardno"],
+				"trace_number"			=> $_t["Transpurchase"]["trace_number"],
+				"transaction_type"		=> $_t["Transpurchase"]["transaction_type"],
+				"processing_code"		=> $_t["Transpurchase"]["processing_code"],
+				"channels"				=> $_t["Transpurchase"]["channels"],
+				"deviceno"				=> $_t["Transpurchase"]["deviceno"],
+				"response"				=> $_t["Transpurchase"]["response"],
+				"transaction_amount" 	=> $_t["Transpurchase"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_acquirer["Withdrawal"] as $_t): 
+			$__acquirer[] = array(
+				"transdate" 			=> $_t["Transwithdrawal"]["transdate"],
+				"cardno" 				=> $_t["Transwithdrawal"]["cardno"],
+				"trace_number"			=> $_t["Transwithdrawal"]["trace_number"],
+				"transaction_type"		=> $_t["Transwithdrawal"]["transaction_type"],
+				"processing_code"		=> $_t["Transwithdrawal"]["processing_code"],
+				"channels"				=> $_t["Transwithdrawal"]["channels"],
+				"deviceno"				=> $_t["Transwithdrawal"]["deviceno"],
+				"response"				=> $_t["Transwithdrawal"]["response"],
+				"transaction_amount" 	=> $_t["Transwithdrawal"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_acquirer["Cashout"] as $_t): 
+			$__acquirer[] = array(
+				"transdate" 			=> $_t["Transcashout"]["transdate"],
+				"cardno" 				=> $_t["Transcashout"]["cardno"],
+				"trace_number"			=> $_t["Transcashout"]["trace_number"],
+				"transaction_type"		=> $_t["Transcashout"]["transaction_type"],
+				"processing_code"		=> $_t["Transcashout"]["processing_code"],
+				"channels"				=> $_t["Transcashout"]["channels"],
+				"deviceno"				=> $_t["Transcashout"]["deviceno"],
+				"response"				=> $_t["Transcashout"]["response"],
+				"transaction_amount" 	=> $_t["Transcashout"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_acquirer["Loadcash"] as $_t): 
+			$__acquirer[] = array(
+				"transdate" 			=> $_t["Transloadcash"]["transdate"],
+				"cardno" 				=> $_t["Transloadcash"]["cardno"],
+				"trace_number"			=> $_t["Transloadcash"]["trace_number"],
+				"transaction_type"		=> $_t["Transloadcash"]["transaction_type"],
+				"processing_code"		=> $_t["Transloadcash"]["processing_code"],
+				"channels"				=> $_t["Transloadcash"]["channels"],
+				"deviceno"				=> $_t["Transloadcash"]["deviceno"],
+				"response"				=> $_t["Transloadcash"]["response"],
+				"transaction_amount" 	=> $_t["Transloadcash"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_acquirer["Balance"] as $_t): 
+			$__acquirer[] = array(
+				"transdate" 			=> $_t["Transbalanceinquiry"]["transdate"],
+				"cardno" 				=> $_t["Transbalanceinquiry"]["cardno"],
+				"trace_number"			=> $_t["Transbalanceinquiry"]["trace_number"],
+				"transaction_type"		=> $_t["Transbalanceinquiry"]["transaction_type"],
+				"processing_code"		=> $_t["Transbalanceinquiry"]["processing_code"],
+				"channels"				=> $_t["Transbalanceinquiry"]["channels"],
+				"deviceno"				=> $_t["Transbalanceinquiry"]["deviceno"],
+				"response"				=> $_t["Transbalanceinquiry"]["response"],
+				"transaction_amount" 	=> $_t["Transbalanceinquiry"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_acquirer["Fundtransfer"] as $_t): 
+			$__acquirer[] = array(
+				"transdate" 			=> $_t["Transinterbank"]["transdate"],
+				"cardno" 				=> $_t["Transinterbank"]["cardno"],
+				"trace_number"			=> $_t["Transinterbank"]["trace_number"],
+				"transaction_type"		=> $_t["Transinterbank"]["transaction_type"],
+				"processing_code"		=> $_t["Transinterbank"]["processing_code"],
+				"channels"				=> $_t["Transinterbank"]["channels"],
+				"deviceno"				=> $_t["Transinterbank"]["deviceno"],
+				"response"				=> $_t["Transinterbank"]["response"],
+				"transaction_amount" 	=> $_t["Transinterbank"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_acquirer["Billspayment"] as $_t): 
+			$__acquirer[] = array(
+				"transdate" 			=> $_t["Transbillspayment"]["transdate"],
+				"cardno" 				=> $_t["Transbillspayment"]["cardno"],
+				"trace_number"			=> $_t["Transbillspayment"]["trace_number"],
+				"transaction_type"		=> $_t["Transbillspayment"]["transaction_type"],
+				"processing_code"		=> $_t["Transbillspayment"]["processing_code"],
+				"channels"				=> $_t["Transbillspayment"]["channels"],
+				"deviceno"				=> $_t["Transbillspayment"]["deviceno"],
+				"response"				=> $_t["Transbillspayment"]["response"],
+				"transaction_amount" 	=> $_t["Transbillspayment"]["transaction_amount"]
+			);
+		endforeach;
+		
+		
+		/*-------------
+		
+		| ISSUER
+		--------------*/
+		
+		
+		foreach($_issuer["Purchase"] as $_t): 
+			$__issuer[] = array(
+				"transdate" 			=> $_t["Transpurchase"]["transdate"],
+				"cardno" 				=> $_t["Transpurchase"]["cardno"],
+				"trace_number"			=> $_t["Transpurchase"]["trace_number"],
+				"transaction_type"		=> $_t["Transpurchase"]["transaction_type"],
+				"processing_code"		=> $_t["Transpurchase"]["processing_code"],
+				"channels"				=> $_t["Transpurchase"]["channels"],
+				"deviceno"				=> $_t["Transpurchase"]["deviceno"],
+				"response"				=> $_t["Transpurchase"]["response"],
+				"transaction_amount" 	=> $_t["Transpurchase"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_issuer["Withdrawal"] as $_t): 
+			$__issuer[] = array(
+				"transdate" 			=> $_t["Transwithdrawal"]["transdate"],
+				"cardno" 				=> $_t["Transwithdrawal"]["cardno"],
+				"trace_number"			=> $_t["Transwithdrawal"]["trace_number"],
+				"transaction_type"		=> $_t["Transwithdrawal"]["transaction_type"],
+				"processing_code"		=> $_t["Transwithdrawal"]["processing_code"],
+				"channels"				=> $_t["Transwithdrawal"]["channels"],
+				"deviceno"				=> $_t["Transwithdrawal"]["deviceno"],
+				"response"				=> $_t["Transwithdrawal"]["response"],
+				"transaction_amount" 	=> $_t["Transwithdrawal"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_issuer["Cashout"] as $_t): 
+			$__issuer[] = array(
+				"transdate" 			=> $_t["Transcashout"]["transdate"],
+				"cardno" 				=> $_t["Transcashout"]["cardno"],
+				"trace_number"			=> $_t["Transcashout"]["trace_number"],
+				"transaction_type"		=> $_t["Transcashout"]["transaction_type"],
+				"processing_code"		=> $_t["Transcashout"]["processing_code"],
+				"channels"				=> $_t["Transcashout"]["channels"],
+				"deviceno"				=> $_t["Transcashout"]["deviceno"],
+				"response"				=> $_t["Transcashout"]["response"],
+				"transaction_amount" 	=> $_t["Transcashout"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_issuer["Loadcash"] as $_t): 
+			$__issuer[] = array(
+				"transdate" 			=> $_t["Transloadcash"]["transdate"],
+				"cardno" 				=> $_t["Transloadcash"]["cardno"],
+				"trace_number"			=> $_t["Transloadcash"]["trace_number"],
+				"transaction_type"		=> $_t["Transloadcash"]["transaction_type"],
+				"processing_code"		=> $_t["Transloadcash"]["processing_code"],
+				"channels"				=> $_t["Transloadcash"]["channels"],
+				"deviceno"				=> $_t["Transloadcash"]["deviceno"],
+				"response"				=> $_t["Transloadcash"]["response"],
+				"transaction_amount" 	=> $_t["Transloadcash"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_issuer["Balance"] as $_t): 
+			$__issuer[] = array(
+				"transdate" 			=> $_t["Transbalanceinquiry"]["transdate"],
+				"cardno" 				=> $_t["Transbalanceinquiry"]["cardno"],
+				"trace_number"			=> $_t["Transbalanceinquiry"]["trace_number"],
+				"transaction_type"		=> $_t["Transbalanceinquiry"]["transaction_type"],
+				"processing_code"		=> $_t["Transbalanceinquiry"]["processing_code"],
+				"channels"				=> $_t["Transbalanceinquiry"]["channels"],
+				"deviceno"				=> $_t["Transbalanceinquiry"]["deviceno"],
+				"response"				=> $_t["Transbalanceinquiry"]["response"],
+				"transaction_amount" 	=> $_t["Transbalanceinquiry"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_issuer["Fundtransfer"] as $_t): 
+			$__issuer[] = array(
+				"transdate" 			=> $_t["Transinterbank"]["transdate"],
+				"cardno" 				=> $_t["Transinterbank"]["cardno"],
+				"trace_number"			=> $_t["Transinterbank"]["trace_number"],
+				"transaction_type"		=> $_t["Transinterbank"]["transaction_type"],
+				"processing_code"		=> $_t["Transinterbank"]["processing_code"],
+				"channels"				=> $_t["Transinterbank"]["channels"],
+				"deviceno"				=> $_t["Transinterbank"]["deviceno"],
+				"response"				=> $_t["Transinterbank"]["response"],
+				"transaction_amount" 	=> $_t["Transinterbank"]["transaction_amount"]
+			);
+		endforeach;
+		
+		foreach($_issuer["Billspayment"] as $_t): 
+			$__issuer[] = array(
+				"transdate" 			=> $_t["Transbillspayment"]["transdate"],
+				"cardno" 				=> $_t["Transbillspayment"]["cardno"],
+				"trace_number"			=> $_t["Transbillspayment"]["trace_number"],
+				"transaction_type"		=> $_t["Transbillspayment"]["transaction_type"],
+				"processing_code"		=> $_t["Transbillspayment"]["processing_code"],
+				"channels"				=> $_t["Transbillspayment"]["channels"],
+				"deviceno"				=> $_t["Transbillspayment"]["deviceno"],
+				"response"				=> $_t["Transbillspayment"]["response"],
+				"transaction_amount" 	=> $_t["Transbillspayment"]["transaction_amount"]
+			);
+		endforeach;
+		
+
+		$this->set("__onus", $__onus);
+		$this->set("__acquirer", $__acquirer);
+		$this->set("__issuer", $__issuer);
+		
+		$this->render();
+		
+		
+	}
+	
+	public function generate_alltranstype_report($transtype, $response, $model, $date_from=null, $date_to=null){
+		
+		$this->Card->{$model}->recursive=-1;
+		$trans = $this->Card->{$model}->find('all', array(
+			'conditions' => array(
+				$model.'.transaction_type' => $transtype,
+				$model.'.response' => $response,
+				$model.'.transdate BETWEEN ? AND ?' => array(
+					$date_from, $date_to
+				)
+			)
+		));
+		
+		return $trans;
 	}
 	
 	public function generate_mass_enrollment_report($date_from=null, $date_to=null){

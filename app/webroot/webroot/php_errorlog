@@ -1,0 +1,48 @@
+[31-Jul-2018 10:51:18 CST6CDT] PHP Fatal error:  Uncaught Error: Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php:159
+Stack trace:
+#0 /home/crossw57/public_html/da5/cashmate/lib/Cake/bootstrap.php(166): Configure::write(Array, 'http://da5.cros...')
+#1 /home/crossw57/public_html/da5/cashmate/app/webroot/index.php(100): include('/home/crossw57/...')
+#2 {main}
+  thrown in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:56:18 CST6CDT] PHP Fatal error:  Uncaught Error: Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php:159
+Stack trace:
+#0 /home/crossw57/public_html/da5/cashmate/lib/Cake/bootstrap.php(166): Configure::write(Array, 'http://da5.cros...')
+#1 /home/crossw57/public_html/da5/cashmate/app/webroot/index.php(100): include('/home/crossw57/...')
+#2 {main}
+  thrown in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:56:19 CST6CDT] PHP Fatal error:  Uncaught Error: Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php:159
+Stack trace:
+#0 /home/crossw57/public_html/da5/cashmate/lib/Cake/bootstrap.php(166): Configure::write(Array, 'http://da5.cros...')
+#1 /home/crossw57/public_html/da5/cashmate/app/webroot/index.php(100): include('/home/crossw57/...')
+#2 {main}
+  thrown in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:56:20 CST6CDT] PHP Fatal error:  Uncaught Error: Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php:159
+Stack trace:
+#0 /home/crossw57/public_html/da5/cashmate/lib/Cake/bootstrap.php(166): Configure::write(Array, 'http://da5.cros...')
+#1 /home/crossw57/public_html/da5/cashmate/app/webroot/index.php(100): include('/home/crossw57/...')
+#2 {main}
+  thrown in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:56:21 CST6CDT] PHP Fatal error:  Uncaught Error: Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php:159
+Stack trace:
+#0 /home/crossw57/public_html/da5/cashmate/lib/Cake/bootstrap.php(166): Configure::write(Array, 'http://da5.cros...')
+#1 /home/crossw57/public_html/da5/cashmate/app/webroot/index.php(100): include('/home/crossw57/...')
+#2 {main}
+  thrown in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:56:21 CST6CDT] PHP Fatal error:  Uncaught Error: Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php:159
+Stack trace:
+#0 /home/crossw57/public_html/da5/cashmate/lib/Cake/bootstrap.php(166): Configure::write(Array, 'http://da5.cros...')
+#1 /home/crossw57/public_html/da5/cashmate/app/webroot/index.php(100): include('/home/crossw57/...')
+#2 {main}
+  thrown in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:56:21 CST6CDT] PHP Fatal error:  Uncaught Error: Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php:159
+Stack trace:
+#0 /home/crossw57/public_html/da5/cashmate/lib/Cake/bootstrap.php(166): Configure::write(Array, 'http://da5.cros...')
+#1 /home/crossw57/public_html/da5/cashmate/app/webroot/index.php(100): include('/home/crossw57/...')
+#2 {main}
+  thrown in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:57:04 CST6CDT] PHP Fatal error:  Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:59:05 CST6CDT] PHP Fatal error:  Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:59:06 CST6CDT] PHP Fatal error:  Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:59:06 CST6CDT] PHP Fatal error:  Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:59:06 CST6CDT] PHP Fatal error:  Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159
+[31-Jul-2018 10:59:07 CST6CDT] PHP Fatal error:  Class 'Hash' not found in /home/crossw57/public_html/da5/cashmate/lib/Cake/Core/Configure.php on line 159

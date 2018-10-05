@@ -284,6 +284,8 @@ Footer
     filter: alpha(opacity=80); /* For IE8 and earlier */
 }
 
+
+
 .btn{
 	border-radius: 0 !important;
 	outline: none !important;

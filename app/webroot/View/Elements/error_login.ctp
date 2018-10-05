@@ -1,0 +1,1 @@
+<div class="alert alert-danger text-center fs-12"><?php echo $message; ?></div>

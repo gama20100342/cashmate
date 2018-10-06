@@ -376,6 +376,7 @@ class LangHelper extends Helper{
 		$headers = array(
 			'applications' => array(				
 				'Application ID',						
+				'CIF No.',						
 				'Registration Date',				
 				//'Processed By',				
 				'Processed Date',				

@@ -4,15 +4,22 @@
 	<h3 class="bold nopadding nomargin">
 		<span class="pull-left"><?php echo $cardholder['Cardholder']['fullname']; ?></span>
 		<div class="btn-group pull-right">
-			<?php //echo $this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']); ?>
-			<a href="#" data-dismiss="modal" class="m-l-3 pull-right btn btn-xs btn-danger fs-9"><i class="fas fa-times fa-lg"></i> Close</a>
+			<?php //echo $this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']); ?>			
 			<?php 
 				echo $this->App->Showbutton(
-					'Update', 
-					'btn-success pull-right fs-9 changestat m-l-3 m-r-3', 
-					"cardholders", 
-					'edit_cardholder/'.$cardholder['Cardholder']['id'],
-					'edit'
+					'Back', 
+					'btn-violet pull-right fs-9 changestat m-l-3 m-r-3', 
+					"cardholders", 			
+					'tag_cards'
+				);		
+			?>
+			<?php 
+				echo $this->App->Showbutton(
+					'Link Card', 
+					'btn-violet pull-right fs-9 changestat m-l-3 m-r-3', 
+					'cards', 			
+					'add/'.$cardholder['Cardholder']['id'].'/'.$cardholder['Cardholder']['refid'].'/'.$cardholder['Cardholder']['cardholderstatus_id'],
+					'credit-card'
 				);		
 			?>
 		</div>

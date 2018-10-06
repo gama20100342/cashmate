@@ -13,10 +13,13 @@
                   <div class="hidden-xs pull-right m-l-3 text-upper m-t-5"><?php echo $user['firstname'] ?></div>
                   <?php 
 					if(empty($user['Useravatar']['user_id'])){
-						$image = 'avatar.png';
+						$image = $this->webroot.'img/avatar.png';
 					}else{
-						$image = $user['Useravatar']['image_file'];
+						$image = $this->webroot . $user['Useravatar']['image_file'];
+						//$image = $this->webroot.'img/avatar.png';
 					}
+					
+					//echo $image;
 					
 					echo $this->App->showUserPicture($image, '30', 'pull-right'); 
                   
@@ -26,9 +29,24 @@
 			  
               <ul class="dropdown-menu nopadding">
                 <li class="user-header text-left text-white">     				
-					<?php echo $this->App->showUserPicture($image, '80', 'pull-left'); ?>					
-					<div class="col-md-6 nopadding-right">
-						<h6 class="text-left">
+					<div class="col-md-12 nopadding">
+					<?php 
+		
+						echo $this->Html->link($this->App->showUserPicture($image, '80', ''), 
+							array(
+								'controller' => 'useravatars',  
+								'action' => 'add', 
+								 $user['refid'], $user['firstname'], $user['lastname']
+							),
+							array(
+								'escape' => false,
+								'class'	=> 'text-center',
+							)
+						);					
+						?>	
+					</div>
+					<div class="col-md-12 nopadding">
+						<h6 class="text-center">
 							<div class="fs-18 bold"><?php echo $user['firstname'] . '<br />' . $user['lastname']; ?></div>
 							<div class="fs-10 m-t-10">Last Login</div>
 							<div class="fs-10"><?php echo date('M d Y h:i A', strtotime($user['last_login'])); ?></div>
@@ -37,9 +55,8 @@
 					<div class="clear"></div>
                 </li>
                 <li class="user-footer">
-                  <div class="pull-left">				
-                  </div>
-                  <div class="pull-right">
+                  
+                  <div class="text-center">
 				           <?php echo $this->Html->link('My Profile', array('controller' => 'users', 'action' => 'viewmyprofile'), array('class' => 'btn btn-success btn-flat')); ?>
 				           <?php echo $this->Html->link('Sign Out', array('controller' => 'users', 'action' => 'logout'), array('class' => 'btn btn-danger btn-flat')); ?>
                   </div>

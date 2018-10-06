@@ -75,59 +75,55 @@
 			)*/			
 			));
 		?>
-	
-	<h5 class="nopadding nomargin fs-12 bold">Check the box to allow group access</h5>
-	
-	<div class="col-md-12 nopadding">	
-		<div class="panel panel-success noradius">
+		
+	<div class="col-md-2 nopadding">	
+		<div class="panel panel-default noradius">
 			<div class="panel-heading p-t-3 p-l-3 p-r-3 p-b-3"><h5 class="nopadding nomargin fs-12 bold">Card Holders</h5></div>
-			<div class="panel-body nomargin">
-				
+			<div class="panel-body nopadding nomargin">
+				<ul class="list-group">
 				<?php foreach($this->lang->listOfController_final()["Cardholder"] as $key => $t): ?>			
-						<div class="col-md-2 nopadding">
+						<li class="list-group-item p-t-3 p-b-3 p-l-3 p-r-3 noradius noborder-left noborder-right noborder-bottom">
 						<label class="checkbox-inline text-uppercase text-success fs-10 bold">
 								<input type="checkbox" name="data[Groupaccess][action_cardholer][]" value="<?php echo $key; ?>"><div class="m-t-3"><?php echo $t; ?></div>						
 						</label>
-						</div>			
+						</li>			
 				<?php endforeach; ?>
-				
+				<ul>
 			</div>
 		</div>
 		
-	<div class="clear"></div>
+		
+	</div>
 	
-	<div class="col-md-12 nopadding">	
-		<div class="panel panel-success noradius">
+	<div class="col-md-2 nopadding">	
+		<div class="panel panel-default noradius">
 			<div class="panel-heading p-t-3 p-l-3 p-r-3 p-b-3"><h5 class="nopadding nomargin fs-12 bold">BRB Card</h5></div>
-			<div class="panel-body">
-				
+			<div class="panel-body nopadding nomargin">
+				<ul class="list-group">
 				<?php foreach($this->lang->listOfController_final()["Card"] as $key => $t): ?>			
-						<div class="col-md-2 nopadding">
+						<li class="list-group-item p-t-3 p-b-3 p-l-3 p-r-3 noradius noborder-left noborder-right noborder-bottom">
 						<label class="checkbox-inline text-uppercase text-success fs-10 bold">
 								<input type="checkbox" name="data[Groupaccess][action_cards][]" value="<?php echo $key; ?>"><div class="m-t-3"><?php echo $t; ?></div>						
 						</label>
-						</div>			
+						</li>			
 				<?php endforeach; ?>
-				
+				<ul>
 			</div>
 		</div>
-	</div>
-	<div class="clear"></div>
-	
-	
-	<div class="col-md-1 nopadding">		
+		<div class="clear"></div>
+		
 		<div class="panel panel-default noradius">
 			<div class="panel-heading p-t-3 p-l-3 p-r-3 p-b-3"><h5 class="nopadding nomargin fs-12 bold">BRB Settings</h5></div>
 			<div class="panel-body nopadding nomargin">
-			
+				<ul class="list-group">
 				<?php foreach($this->lang->listOfController_final()["BRB_Settings"] as $key => $t): ?>			
-						<div class="col-md-2">
+						<li class="list-group-item p-t-3 p-b-3 p-l-3 p-r-3 noradius noborder-left noborder-right noborder-bottom">
 						<label class="checkbox-inline text-uppercase text-success fs-10 bold">
 								<input type="checkbox" name="data[Groupaccess][action_brbsetting][]" value="<?php echo $key; ?>"><div class="m-t-3"><?php echo $t; ?></div>						
 						</label>
-						</div>			
+						</li>			
 				<?php endforeach; ?>
-			
+				<ul>
 			</div>
 		</div>
 		

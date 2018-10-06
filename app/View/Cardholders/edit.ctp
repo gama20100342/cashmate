@@ -50,7 +50,7 @@
 				//array('input' => 'suffix', 'label' => 'Suffix', 'class' => 'letters_only', 'wrapper' => 'col-md-2', 'clear' => 1),
 				array('input' => 'gender', 'label' => 'Sex *', 'type' => 'select', 'empty' => false, 'options' => $this->Lang->listofSex(), 'wrapper' => 'col-md-2 nopadding'),
 				array('input' => 'registration', 'default' => date('Y-m-d h:i:s'), 'label' => 'Date of Application *', 'class' => 'date', 'wrapper' => 'col-md-2 nopadding'),
-				array('input' => 'card_name', 'label' => 'Name to Appear on Card *', 'class' => 'letters_only card_name','wrapper' => 'col-md-8 nopadding', 'clear' => 1, 'note' => 'Should not exceed to 25 Characters')
+				array('input' => 'card_name', 'label' => 'Name to Appear on Card *', 'class' => 'letters_and_numbers card_name','wrapper' => 'col-md-8 nopadding', 'clear' => 1, 'note' => 'Should not exceed to 25 Characters')
 				), true);			
 				
 			echo $this->App->showForminputs(array(		
@@ -131,7 +131,7 @@
 					array('input' => 'office_no', 'label' => 'Office Contact No.', 'class' => 'numbers_only tel_no', 'wrapper' => 'col-md-3 nopadding'),															
 					
 					array('input' => 'annual_income', 'label' => 'Annual Income', 'placeholder' => '0.00',  'class' => 'numbers_and_letters',  'wrapper' => 'col-md-3 nopadding', 'clear' => 1),					
-					array('input' => 'fund_source', 'label' => 'Source of Income',  'class' => 'numbers_and_letters',  'wrapper' => 'col-md-12 nopadding', 'clear' => 1)					
+					array('input' => 'fund_source', 'label' => 'Source of Funds',  'class' => 'numbers_and_letters',  'wrapper' => 'col-md-12 nopadding', 'clear' => 1)					
 					
 				), true);		
 			?>
@@ -142,6 +142,19 @@
 					array('input' => 'cardholderstatus_id', 'label' => 'Account Status', 'type' => 'select', 'selected' => 1, 'empty' => true, 'options' => $cardholderstatuses, 'wrapper' => 'col-md-3')				
 				));*/
 			?>
+			
+		</div>
+		<div class="col-md-12 m-t-20">			
+			<h5 class="bold text-danger nopadding nomargin"><?php echo __('Institution & Product Information'); ?></h5>
+			<?php		
+				echo $this->App->showForminputs(array(					
+					array('input' => 'institution_id', 'label' => 'Select Institution', 'type' => 'select', 'class' => '__institution', 'empty' => true, 'options' => $institutions, 'wrapper' => 'col-md-6 nopadding'),									
+					array('input' => 'product_id', 'label' => 'Select Product', 'type' => 'select', 'class' => '__product',  'empty' => true, 'options' => '', 'wrapper' => 'col-md-6 nopadding', 'clear' => 1)									
+					
+				), true);		
+			?>
+			
+		
 			
 		</div>
 	
@@ -178,6 +191,45 @@
 					$(".per_country").val("");	
 				}
 			});
+			
+			$(".__institution").change( function(){				
+				var institution = $(".__institution option:selected").val();
+				
+				if(institution===""){
+					_responseMsg("Please provide the institution.");
+					$(".__product").empty();
+								$(".__product").append($("<option>", { 
+										value: "",
+										text : "--Choose"
+									}));	
+									
+				}else{
+								
+					$(".__product").empty();
+								$(".__product").append($("<option>", { 
+										value: "",
+										text : "--Choose"
+									}));				
+					_loading_message("show");
+					$.get("'.$this->webroot.'institutions/getproducts/" + institution, function(resp){
+							__data = JSON.parse(resp)._data;	
+							if(__data.length > 0){
+								$.each(__data, function (i, item) {
+									$(".__product").append($("<option>", { 
+										value: item.id,
+										text : item.name 
+									}));
+								});
+							}else{
+	
+								_responseMsg("No product found.");	
+							}
+							
+							_loading_message("hide");
+					});
+				}
+			});
+			
 			
 			$("._cardtype").change( function(){
 				$("._ptype").val($(this).val());

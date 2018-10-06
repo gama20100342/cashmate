@@ -376,6 +376,7 @@ class LangHelper extends Helper{
 		$headers = array(
 			'applications' => array(				
 				'Application ID',						
+				'CIF ID',						
 				'Registration Date',				
 				//'Processed By',				
 				'Processed Date',				
@@ -807,6 +808,9 @@ class LangHelper extends Helper{
 		switch($_rpt){
 			case "inactive_card":
 				$_fl = 'List_of_Cards_Inactive_';
+			break;
+			case "user_list":
+				$_fl = 'BRB_List_of_Users_';
 			break;
 			case "activated_card":
 				$_fl = 'List_of_Cards_Activated_';

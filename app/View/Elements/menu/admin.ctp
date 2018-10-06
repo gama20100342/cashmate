@@ -114,6 +114,8 @@
 						</li>
 						
 						<li class="separator-submenu"></li>
+						<li><?php echo $this->App->pageLink('List of Users', 'users', 'generate_listofusers'); ?></li>						
+						<li class="separator-submenu"></li>
 						<li class="dropdown">
 								<a href="#">Approved Transactions<span class="caret"></span></a>
 								<ul class="dropdown-menu noborder noradius">

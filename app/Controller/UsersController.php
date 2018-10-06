@@ -37,6 +37,32 @@ class UsersController extends AppController {
     }
 	
 	
+	public function generate_listofusers($date_from=null, $date_to=null){
+	
+		$this->layout = 'pdf';		
+	
+		$this->set('date_from', $date_from);		
+		$this->set('date_to', $date_to);				
+		$this->set('title', date('Y-m-d H:i:s'));
+
+			
+		$this->set('filename', 'user_list');
+		
+		$this->User->recursive=0;
+		$this->set('users', $this->User->find('all', array(
+				'order' => array(
+					'User.id' => 'ASC'
+				),
+				'fields' => array(
+					'User.*', 'Status.name', 'Group.name'
+				)
+			)
+		));
+		
+		$this->render();
+	}
+	
+	
 	
 	
 	/*

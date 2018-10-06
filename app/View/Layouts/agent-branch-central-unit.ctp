@@ -164,7 +164,18 @@
         </div>
     </div> 
 	
-	
+	  <div class="modal" id="maintenance" data-backdrop="static" keyboard="false">
+        <div class="modal-dialog modal-xs m-t-180">        
+            <div class="text-center text-danger fs-12 _error_spin">
+				<i class="fa fa-exclamation-triangle fa-lg fa-fw"></i> 
+				<div class="bold">This functionality is about to work soon, we are working on it. Thank you.</div>
+				<div class="_mem text-warning"></div>
+				<div class="m-t-10">
+					<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Ok</button>
+				</div>
+            </div>
+        </div>
+    </div> 
 	
    
     <div class="modal" id="_reports_date_modal" data-backdrop="static" keyboard="false">
@@ -174,9 +185,10 @@
 						<i class='fa fa-calendar fa-lg fa-fw'></i><span class="report_title bold fs-12"></span>
 				</div>
 				<div class="modal-body m-b-15">
-					<div class="text-success fs-11"><?php echo $this->Lang->showMessage('label_search_date'); ?></div>
-					<div class="input-group">
-						<span class="input-group-addon noborder">
+					<div class="text-success fs-11">Generate Transactions Betweeen Dates</div>
+					<!--div class="input-group"-->
+					<div class="col-md-12 nopadding">
+						<span class="input-group-addon noborder nodisplay" id="showalldates">
 							<input type="checkbox" class="noborder _allreport" value="all" />All						 
 						</span>
 						<?php			   
@@ -204,8 +216,8 @@
 		<div class="modal-dialog modal-max nopadding">
 		  <div class="modal-content noradius nopadding">       			
 			<div class="modal-header">
-						<i class='fa fa-info fa-lg fa-fw'></i>Search Client Information
-						<button type="button" class="btn btn-lg btn-danger pull-right" data-dismiss="modal"><i class="fas fa-times fa-lg"></i> Close</button>
+						<i class='fa fa-info-circle fa-lg fa-fw'></i>Search Client Information
+						<button type="button" class="btn btn-sm btn-danger pull-right" data-dismiss="modal"><i class="fas fa-times fa-lg"></i> Close</button>
 				</div>
 				
 			<div class="modal-body">
@@ -221,7 +233,7 @@
 							<div class="col-md-2 nopadding-right">								
 								<button 
 									type="button" 
-									class="btn btn-lg btn-success pull-left searchclient m-r-5"
+									class="btn btn-sm btn-success pull-left searchclient m-r-5"
 									url ="<?php echo $this->webroot; ?>cardholders/searchByHolder"
 								><i class="fas fa-search fa-lg"></i> Find</button>							
 								
@@ -258,11 +270,12 @@
 	echo $this->Html->script(array(
     'bootstrap.min',
     'inputmask/inputmask',
+	'inputmask/inputmask.date.extensions',
 	'inputmask/jquery.inputmask',
-    'inputmask/inputmask.extensions',   
-    'inputmask/inputmask.date.extensions',
-    'inputmask/inputmask.phone.extensions',    
-	 'inputmask/inputmask.numeric.extensions',
+    //'inputmask/inputmask.extensions',       
+    //'inputmask/inputmask.phone.extensions',    
+	//'inputmask/inputmask.numeric.extensions',
+    //'jquery.uploadfile.min',  
     'bootstrap-datepicker',  
     'bootstrap-dropdownhover.min',  
     'jquery.dataTables.min',  
@@ -283,6 +296,7 @@ echo $this->fetch('script');
 
 <script type="text/javascript">
 	$(document).ready( function(){
+		
 		/*search client script*/
 	
 		$("#_search_client").on("shown.bs.modal", function(){

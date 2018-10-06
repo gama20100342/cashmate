@@ -1,28 +1,50 @@
 <?php //echo $this->App->CommonHeader('Card Holder Information'); ?>
-<?php echo $this->App->CommonHeaderWithButton(
-	'Update Account Information',
-		//$this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']).
-		
-		$this->App->Showbutton(
-			'Back', 
-			'btn-violet pull-right fs-10', 
-			'cardapplications', 
-			'index'
-		).
-		$this->App->Showbutton(
-					'Update', 
-					'btn-success pull-right fs-10 changestat m-l-3 m-r-3', 
-					"cardholders", 
-					'edit/'.$cardholder['Cardholder']['id'],
-					'edit'
-				).
-		$this->App->ShowbuttonAjax(
-							'Approved Application', 
-							'btn btn-violet pull-right m-l-3 fs-10 holder_status', 						
-							'check',
-							$this->webroot.'cardholders/updateCardStatus/1/'.$cardholder['Cardholder']['refid'].'/'.$cardholder['Cardholder']['id'].'/1'
-						)
-	);
+<?php 
+
+	if($this->Session->read('Auth.User.group_id') ==1 ){ 
+		echo $this->App->CommonHeaderWithButton(
+		'Update Account Information',
+			//$this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']).
+			
+			$this->App->Showbutton(
+				'Back', 
+				'btn-violet pull-right fs-10', 
+				'cardapplications', 
+				'index'
+			).			
+			$this->App->Showbutton(
+						'Update', 
+						'btn-success pull-right fs-10 changestat m-l-3 m-r-3', 
+						"cardholders", 
+						'edit/'.$cardholder['Cardholder']['id'],
+						'edit'
+			).
+			$this->App->ShowbuttonAjax(
+								'Approved Application', 
+								'btn btn-violet pull-right m-l-3 fs-10 holder_status', 						
+								'check',
+								$this->webroot.'cardholders/updateCardStatus/1/'.$cardholder['Cardholder']['refid'].'/'.$cardholder['Cardholder']['id'].'/1'
+							)
+		);
+	}else{
+		echo $this->App->CommonHeaderWithButton(
+		'Update Account Information',
+			//$this->App->showHolderStatusAction($cardholder['Cardholder']['cardholderstatus_id'], $cardholder['Cardholder']['refid'], $cardholder['Cardholder']['id']).
+			
+			$this->App->Showbutton(
+				'Back', 
+				'btn-violet pull-right fs-10', 
+				'cardapplications', 
+				'index'
+			).					
+			$this->App->ShowbuttonAjax(
+								'Approved Application', 
+								'btn btn-violet pull-right m-r-3 fs-10 holder_status', 						
+								'check',
+								$this->webroot.'cardholders/updateCardStatus/1/'.$cardholder['Cardholder']['refid'].'/'.$cardholder['Cardholder']['id'].'/1'
+							)
+		);
+	}
 ?>
 
 <?php echo $this->App->CommonBreadcrumbs(
@@ -232,12 +254,85 @@
 <div class="clear"></div>
 
 
+ <div class="modal" id="_new_cardholder_noti" data-backdrop="static" keyboard="false">
+        <div class="modal-dialog modal-sm m-t-180">
+			<div class="modal-content">       
+				<div class="modal-header">
+						<i class='fa fa-bell fa-lg fa-fw'></i> System Notification
+				</div>
+				<div class="modal-body text-center m-b-15">
+					<p class="text-success fs-12 m-b-20 m-t-10 message_modal_text_nc"></p>
+					<?php echo $this->Html->link('Ok', array(
+						'controller' => 'cards', 
+						'action' => 'add/'.$cardholder['Cardholder']['id'].'/'.$cardholder['Cardholder']['refid'].'/'.$cardholder['Cardholder']['cardholderstatus_id']
+						),
+						array('class' => 'btn btn-success btn-sm')); ?>											
+				</div>
+			</div>
+		</div> 
+   </div>
+   
+   
 	
 <?php
 			
-	echo $this->Js->Buffer('		
-		$(document).ready( function(){				
-			updateCardStatusLinks("sample");
+	echo $this->Js->Buffer('	
+		function updateCardStatusLinksOnPage(td_id){
+				
+				$(".updatecardstatus-link, .holder_status").click( function(e){
+					
+					e.preventDefault();
+					var _conf = confirm("You are about to change the status of the selected item. Please confirm.");
+					
+					if(_conf){
+						$("#view_card_detail_").modal("hide");
+						
+						var _url = $(this).attr("url");
+						
+						
+						$.ajax({
+							method: "GET",
+							url: _url,
+							dataType: "JSON",
+							cache: false,
+							beforeSend: function(){
+								
+								_loading_message("show");
+							},
+							success: function(resp){						
+								
+								
+								if(resp.status==200){							
+									$(".message_modal_text_nc").html(resp.message);
+									$("#_new_cardholder_noti").modal("show");
+								}else{
+									_responseMsg(resp.message);	
+								}
+								
+								$(this).prop("disabled", true);
+																
+							},
+							error: function(xJq, er1, er2){
+								_responseMsg("An error occured during update " + xJq + er1, + er2);						
+							},
+							complete: function(){
+								_loading_message("hide");
+							}
+						});
+						
+					}else{
+						return false;
+					}
+				});
+			}
+	
+	
+		$("#_new_cardholder_noti").on("shown.bs.modal", function(){
+			$(this).appendTo("body");
+		});
+		
+		$(document).ready( function(){	
+			updateCardStatusLinksOnPage("sample");
 		});
 	');
 ?>

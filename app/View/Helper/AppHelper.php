@@ -94,7 +94,8 @@ class AppHelper extends Helper {
     public function showUserPicture($image, $size_class, $opt_class){
         
         if(isset($image) && !empty($image)){
-            $user_image = $this->Html->image($image, array('class' => 'img-'.$size_class.' '.$opt_class));
+            //$user_image = $this->Html->image($image, array('class' => 'img-'.$size_class.' '.$opt_class));
+			$user_image = '<img src="'.$image.'" class="img-'.$size_class.' '.$opt_class.'" />'; 
         }else{            
             $user_image =  '<div class="user-no-pics-'.$size_class.' '.$opt_class.' bg-666"></div>';
         }
@@ -330,7 +331,7 @@ class AppHelper extends Helper {
             case "view": $icon  = 'eye';break;
 			case "approved": $icon  = 'check-circle';break;
             case "delete": $icon  = 'trash-alt';break;            
-            default: $icon = 'edit'; break;
+            default: $icon = $icon; break;
         }
 
         return $this->Html->link('<i class="fas fa-'.$icon.' fa-lg"></i>', 
@@ -642,16 +643,16 @@ class AppHelper extends Helper {
 				<span class="fs-12 bold">Scan & Upload ID</span>
 			</a>
 		  </li>
-		   <li class="'.(isset($step) && $step=="3" ? 'current' : '').'">
+
+		</ul>';
+		/*
+		<li class="'.(isset($step) && $step=="3" ? 'current' : '').'">
 			<a href="#" title="">
 				<em class="fs-10">Step 3</em>
 				<span class="fs-12 bold">Link Card</span>
 			</a>
-		  </li>
+		  </li>*/
 		  
-		  
-		</ul>';
-		
 		return $str;
 
 	}

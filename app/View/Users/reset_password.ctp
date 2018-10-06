@@ -60,13 +60,13 @@
 			echo $this->App->showForminputs(array(				
 					array('input' => 'group_id', 'label' => 'Access Type *', 'type' => 'select', 'options' => $groups, 'class' => 'noborder', 'wrapper' => 'col-md-12 nopadding', 'read-only' => true, 'clear' => 1),
 					//array('input' => 'terminal_id', 'label' => 'Acccess Terminal *',  'class' => 'letters_only', 'type' => 'select', 'options' => $terminals, 'clear' => '1'),				
-					array('input' => 'username', 'label' => 'Username *', 'class' => 'noborder', 'wrapper' => 'col-md-3 nopadding', 'note' => 'Username should be at least 6 alphanumeric characters and all uppercase', 'read-only' => true),
-					array('input' => 'new_password',  'type' => 'password', 'label' => 'Password *', 'class' => 'pass_', 'wrapper' => 'col-md-3 nopadding', 'note' => 'Password should be at least 8  alphanumeric characters with one (1) special character and one ( 1 ) upper case'),															
+					array('input' => 'username', 'label' => 'Username *', 'class' => 'noborder', 'wrapper' => 'col-md-3 nopadding', 'n' => 'Username should be at least 6 alphanumeric characters and all uppercase', 'read-only' => true),
+					array('input' => 'new_password',  'type' => 'password', 'label' => 'Password *', 'class' => 'pass_', 'wrapper' => 'col-md-3 nopadding', 'n' => 'Password should be at least 8  alphanumeric characters with one (1) special character and one ( 1 ) upper case'),															
 					//array('input' => 'pass_expire_dummy', 'default' => $this->App->getTheDateAfter("+30 days", date('Y-m-d')), 'label' => 'Password Expires On *', 'class' => 'letters_and_numbers noborder', 'read-only' => true),
 					//array('input' => 'pass_expire_dummy', 'default' => date('Y-m-d'), 'label' => 'Password Expires On *', 'class' => 'letters_and_numbers noborder', 'read-only' => true),
 				), true);	
 	?>
-			<div class="col-md-3 nopadding">
+			<div class="col-md-6 nopadding">
 				<button type="button" class="btn btn-default btn-sm m-t-25 usedefault">Reset Password</button>
 				<button type="button" class="btn btn-default btn-sm m-t-25 useunlock">Unlock Password</button>
 			</div> 

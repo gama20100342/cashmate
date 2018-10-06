@@ -85,7 +85,7 @@ class CardholderidsController extends AppController {
 												))){
 													$response = array(
 														"status" 	=> "success",
-														"message" 	=> "Card holder id successfully uploaded"
+														"message" 	=> "Registration Complete!"
 													);
 													
 												}else{

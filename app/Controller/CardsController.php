@@ -35,6 +35,228 @@ class CardsController extends AppController {
 		
 	}
 	
+	
+	public function show_all_transactions(){		
+		
+		/*$this->layout = 'ajax';
+		$this->autoRender = false;
+		$this->view = false;*/
+		
+		$this->Card->Transbalanceinquiry->recursive=-1;
+		$this->Card->Transpurchase->recursive=-1;
+		$this->Card->Transwithdrawal->recursive=-1;
+		$this->Card->Transcashout->recursive=-1;
+		$this->Card->Transloadcash->recursive=-1;
+		$this->Card->Transchangepin->recursive=-1;
+		$this->Card->Transbillspayment->recursive=-1;
+		$this->Card->Transinterbank->recursive=-1;
+		
+		$__trans			= array();
+		$_balanaceinquries 	= $this->Card->Transbalanceinquiry->find('all', array('order' => array('Transbalanceinquiry.transdate' => 'DESC')));
+		$_purchases 		= $this->Card->Transpurchase->find('all', array('order' => array('Transpurchase.transdate' => 'DESC')));
+		$_withdrawals 		= $this->Card->Transwithdrawal->find('all', array('order' => array('Transwithdrawal.transdate' => 'DESC')));
+		$_cashouts 			= $this->Card->Transcashout->find('all', array('order' => array('Transcashout.transdate' => 'DESC')));
+		$_cashloads 		= $this->Card->Transloadcash->find('all', array('order' => array('Transloadcash.transdate' => 'DESC')));
+		$_changepins 		= $this->Card->Transchangepin->find('all', array('order' => array('Transchangepin.transdate' => 'DESC')));
+		$_billspayments 	= $this->Card->Transbillspayment->find('all', array('order' => array('Transbillspayment.transdate' => 'DESC')));
+		$_interbanks 		= $this->Card->Transinterbank->find('all', array('order' => array('Transinterbank.transdate' => 'DESC')));
+		
+		if(!empty($_balanaceinquries)){		
+		foreach($_balanaceinquries as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transbalanceinquiry']['transdate'])),
+					'cardno' 		=> $t['Transbalanceinquiry']['cardno'],
+					'trace'			=> $t['Transbalanceinquiry']['trace_number'],									
+					'type' 			=> strtoupper($t['Transbalanceinquiry']['transaction_type']),									
+					'code'			=> strtoupper($t['Transbalanceinquiry']['processing_code']),									
+					'channel'		=> $t['Transbalanceinquiry']['channels'],									
+					'device'		=> $t['Transbalanceinquiry']['deviceno'],
+					'institution' 	=> $t['Transbalanceinquiry']['acquirer_institution'],																									
+					'resp'			=> $t['Transbalanceinquiry']['response'],
+					'amount'		=> number_format($t['Transbalanceinquiry']['transaction_amount'], 2, ".", ",")				
+				
+			);
+		endforeach;
+		}
+		
+		if(!empty($_purchases)){		
+		foreach($_purchases as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transpurchase']['transdate'])),
+					'cardno' 		=> $t['Transpurchase']['cardno'],
+					'trace'			=> $t['Transpurchase']['trace_number'],									
+					'type' 			=> strtoupper($t['Transpurchase']['transaction_type']),									
+					'code'			=> strtoupper($t['Transpurchase']['processing_code']),									
+					'channel'		=> $t['Transpurchase']['channels'],									
+					'device'		=> $t['Transpurchase']['deviceno'],
+					'institution' 	=> $t['Transpurchase']['acquirer_institution'],																									
+					'resp'			=> $t['Transpurchase']['response'],
+					'amount'		=> number_format($t['Transpurchase']['transaction_amount'], 2, ".", ",")				
+			
+			);
+		endforeach;
+		}
+		
+		if(!empty($_withdrawals)){
+		foreach($_withdrawals as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transwithdrawal']['transdate'])),
+					'cardno' 		=> $t['Transwithdrawal']['cardno'],
+					'trace'			=> $t['Transwithdrawal']['trace_number'],									
+					'type' 			=> strtoupper($t['Transwithdrawal']['transaction_type']),									
+					'code'			=> strtoupper($t['Transwithdrawal']['processing_code']),									
+					'channel'		=> $t['Transwithdrawal']['channels'],									
+					'device'		=> $t['Transwithdrawal']['deviceno'],
+					'institution' 	=> $t['Transwithdrawal']['acquirer_institution'],																									
+					'resp'			=> $t['Transwithdrawal']['response'],
+					'amount'		=> number_format($t['Transwithdrawal']['transaction_amount'], 2, ".", ",")				
+			
+			);
+		endforeach;
+		}
+		
+		
+		if(!empty($_cashouts)){		
+		foreach($_cashouts as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transcashout']['transdate'])),
+					'cardno' 		=> $t['Transcashout']['cardno'],
+					'trace'			=> $t['Transcashout']['trace_number'],									
+					'type' 			=> strtoupper($t['Transcashout']['transaction_type']),									
+					'code'			=> strtoupper($t['Transcashout']['processing_code']),									
+					'channel'		=> $t['Transcashout']['channels'],									
+					'device'		=> $t['Transcashout']['deviceno'],
+					'institution' 	=> $t['Transcashout']['acquirer_institution'],																									
+					'resp'			=> $t['Transcashout']['response'],
+					'amount'		=> number_format($t['Transcashout']['transaction_amount'], 2, ".", ",")				
+			
+			);
+		endforeach;
+		}
+		
+		
+		if(!empty($_cashloads)){		
+		foreach($_cashloads as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transloadcash']['transdate'])),
+					'cardno' 		=> $t['Transloadcash']['cardno'],
+					'trace'			=> $t['Transloadcash']['trace_number'],									
+					'type' 			=> strtoupper($t['Transloadcash']['transaction_type']),									
+					'code'			=> strtoupper($t['Transloadcash']['processing_code']),									
+					'channel'		=> $t['Transloadcash']['channels'],									
+					'device'		=> $t['Transloadcash']['deviceno'],
+					'institution' 	=> $t['Transloadcash']['acquirer_institution'],																									
+					'resp'			=> $t['Transloadcash']['response'],
+					'amount'		=> number_format($t['Transloadcash']['transaction_amount'], 2, ".", ",")				
+			
+			);
+		endforeach;
+		}
+		
+		if(!empty($_changepins)){			
+		foreach($_changepins as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transchangepin']['transdate'])),
+					'cardno' 		=> $t['Transchangepin']['cardno'],
+					'trace'			=> $t['Transchangepin']['trace_number'],									
+					'type' 			=> strtoupper($t['Transchangepin']['transaction_type']),									
+					'code'			=> strtoupper($t['Transchangepin']['processing_code']),									
+					'channel'		=> $t['Transchangepin']['channels'],									
+					'device'		=> $t['Transchangepin']['deviceno'],
+					'institution' 	=> $t['Transchangepin']['acquirer_institution'],																									
+					'resp'			=> $t['Transchangepin']['response'],
+					'amount'		=> number_format($t['Transchangepin']['transaction_amount'], 2, ".", ",")				
+			
+			);
+		endforeach;
+		}
+		
+		
+		if(!empty($_billspayments)){			
+		foreach($_billspayments as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transbillspayment']['transdate'])),
+					'cardno' 		=> $t['Transbillspayment']['cardno'],
+					'trace'			=> $t['Transbillspayment']['trace_number'],									
+					'type' 			=> strtoupper($t['Transbillspayment']['transaction_type']),									
+					'code'			=> strtoupper($t['Transbillspayment']['processing_code']),									
+					'channel'		=> $t['Transbillspayment']['channels'],									
+					'device'		=> $t['Transbillspayment']['deviceno'],
+					'institution' 	=> $t['Transbillspayment']['acquirer_institution'],																									
+					'resp'			=> $t['Transbillspayment']['response'],
+					'amount'		=> number_format($t['Transbillspayment']['transaction_amount'], 2, ".", ",")				
+			
+			);
+		endforeach;
+		}
+	
+		if(!empty($_interbanks)){
+		foreach($_interbanks as $t):
+			$__trans[] = array(
+					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transinterbank']['transdate'])),
+					'cardno' 		=> $t['Transinterbank']['cardno'],
+					'trace'			=> $t['Transinterbank']['trace_number'],									
+					'type' 			=> strtoupper($t['Transinterbank']['transaction_type']),									
+					'code'			=> strtoupper($t['Transinterbank']['processing_code']),									
+					'channel'		=> $t['Transinterbank']['channels'],									
+					'device'		=> $t['Transinterbank']['deviceno'],
+					'institution' 	=> $t['Transinterbank']['acquirer_institution'],																									
+					'resp'			=> $t['Transinterbank']['response'],
+					'amount'		=> number_format($t['Transinterbank']['transaction_amount'], 2, ".", ",")				
+			
+			);
+		endforeach;
+		}
+		
+		$this->set('__trans', $__trans);
+		
+		
+		//return json_encode($__trans);
+		
+		/*$_balanaceinquries = $this->Card->find('all', array(
+				'joins' => array(
+					array(	
+						'table' => 'transbalanceinquiries',
+						'alias' => 'Transbalanceinquiry',
+						'type' => 'INNER',
+						'order' => array(
+							'Transbalanceinquiry.transdate' => 'DESC'
+						)
+					),
+					array(	
+						'table' => 'transpurchases',
+						'alias' => 'Transpurchase',
+						'type' => 'INNER',
+						'order' => array(
+							'Transpurchase.transdate' => 'DESC'
+						)
+					)
+				),
+				'fields' => array(
+					'Transbalanceinquiry.*', 'Transpurchase.*'
+				)				
+			)
+		);*/
+		
+		
+	/*	$_balanaceinquries = $this->Card->query("
+			SELECT 
+			a.id, 
+			a.transdate, 
+			a.cardno, 
+			b.id,
+			b.transdate,
+			b.cardno FROM cm_transbalanceinquiries as a
+			INNER JOIN cm_transpurchases as b
+			ORDER BY a.transdate, b.transdate DESC
+		");*/
+		
+		
+		
+	}
+	
+	
+	
 	public function generate_alltranstype($response, $date_from=null, $date_to=null){
 		
 		$this->layout = 'pdf';		
@@ -1469,8 +1691,8 @@ class CardsController extends AppController {
 		
 		
 		if($this->cardHolderHasCard($cardholder_id, $cardholder_ref)){
-			$this->Message->msgSuccess("Registration Complete.");
-			return $this->redirect(array('controller' => 'cardholders', 'action' => 'add'));	
+			$this->Message->msgError("Card was already linked to this account.");
+			return $this->redirect(array('controller' => 'cardholders', 'action' => 'add/new'));	
 		}
 		//check if the holder has card already
 		
@@ -1482,7 +1704,7 @@ class CardsController extends AppController {
 		$this->set('check_digit', $this->Common->generate_pin(1));
 		$this->set('cardholder_ref', $cardholder_ref);
 		$this->set('cardholder_id', $cardholder_id);
-		
+		$holderid = '';
 		$this->set('holder', $this->getHolderDetailsByIdAndRef($cardholder_id, $cardholder_ref));
 		
 		if ($this->request->is('post')) {
@@ -1492,7 +1714,7 @@ class CardsController extends AppController {
 					
 					if(isset($this->data['Card']['_cardno']) && !empty($this->data['Card']['_cardno'])){
 						$cardno = $this->data['Card']['_cardno'];
-						
+						$holderid =  $this->data['Card']['_cardholder_id'];
 						$data  = array(
 									'Card'	=> array(										
 										'cardholder_id'		 => $this->data['Card']['_cardholder_id'],
@@ -1512,6 +1734,7 @@ class CardsController extends AppController {
 								
 					}else{
 						$cardno = $this->data['Card']['cardno_1'] .''. $this->data['Card']['cardno_2'] .''. $this->data['Card']['cardno_3'] .''. $this->data['Card']['cardno_4'];
+						$holderid =  $this->data['Card']['cardholder_id'];
 						$data  = array(
 									'Card'	=> array(										
 										'cardholder_id'		 => $this->data['Card']['cardholder_id'],
@@ -1529,30 +1752,34 @@ class CardsController extends AppController {
 										'refid'				 => $this->data['Card']['refid'],
 										'processed_by'		 => $this->data['Card']['processed_by'],
 										'registration'		 => date('Y-m-d h:i:s'),
-										'modified'		 	 => date('Y-m-d h:i:s')
+										'modified'		 	 => date('Y-m-d h:i:s'),										
 									)
 								);
 								
 									echo "no data";
 					}
 				
-				
+						
+						if(!empty($holderid)){
 							$this->Card->create();									
 							if($this->Card->save($data)){
 								if(isset($this->data['Card']['_cardno']) && !empty($this->data['Card']['_cardno'])){									
-									if($this->updateCardGen($this->data['Card']['_cardno'])){
-										$this->Message->msgSuccess("Registration complete.");	
+									if($this->updateCardGen($this->data['Card']['_cardno']) && $this->updateHolderHasCard($holderid)){
+										$this->Message->msgSuccess("Card Linking Completed.");	
 									}else{
-										$this->Message->msgSuccess("Registration complete. But unable to update the pre-generated card");	
+										$this->Message->msgSuccess("Card Linking Completed. But unable to update the pre-generated card");	
 									}
+									
+									//return $this->redirect(array('controller' => 'cardholders', 'action' => 'tag_cards'));
 								}else{								
-									$this->Message->msgSuccess("Registration complete.");
+									$this->Message->msgSuccess("Card Linking was not completed.");
 								}
-								return $this->redirect(array('controller' => 'cardholders', 'action' => 'add', 'new'));			
+								return $this->redirect(array('controller' => 'cardholders', 'action' => 'tag_cards'));			
 							} else {
 								$this->Session->setFlash($this->Message->showMsg('error_save_normal_data'), 'error_message');
-								$ds_cardholder->rollback();
+								//$ds_cardholder->rollback();
 							}
+						}
 			/*	}else{
 					$this->Message->msgError("Card registration not complete, invalid check digit.");
 				}*/
@@ -1567,6 +1794,15 @@ class CardsController extends AppController {
 		//$this->set('pregens', $this->getAvailablePregenCards());
 		//$this->set(compact('cardtypes', 'cardstatuses', 'products'));
 		$this->set(compact('cardtypes', 'products', 'institutions', '_cardtypes'));
+	}
+	
+	private function updateHolderHasCard($holderid){
+		$this->Card->Cardholder->id = $holderid;
+		if($this->Card->Cardholder->saveField('has_card', 1)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	private function updateCardGen($cardno){

@@ -39,6 +39,33 @@ class CardholdersController extends AppController {
 		return $cifno;
 	}
 	
+	public function tag_cards(){
+		$this->Cardholder->recursive=-1;
+		$holders = $this->Cardholder->find('all', array(				
+				'conditions' => array(
+					'Cardholder.has_card' => 0,
+					'Cardholder.cardholderstatus_id' => 1
+				),
+				'group' => array(
+					'Cardholder.id'
+				),
+				'fields' => array(
+					'Cardholder.cif_no',
+					'Cardholder.fullname',
+					'Cardholder.id',
+					'Cardholder.refid',
+					'Cardholder.cardholderstatus_id',
+					'Cardholder.registration',
+					'(SELECT COUNT(*) FROM cm_cards WHERE cardholder_id = Cardholder.id) as TotalCard',
+					'(SELECT mnemonic FROM cm_institutions WHERE id = Cardholder.institution_id) as IntName',
+					'(SELECT name FROM cm_products WHERE id = Cardholder.product_id) as PName'
+				)
+		));
+		
+
+		$this->set('holders', $holders);
+			
+	}
 	
 	public function generate_cardholder_activity($date_from=null, $date_to=null){
 			$this->layout = 'pdf'; 			
@@ -365,6 +392,24 @@ class CardholdersController extends AppController {
 		
 	}
 	
+	
+	public function index_active($status=null) {		
+		$this->Cardholder->recursive = 0;	
+		$status 		= isset($status) && !empty($status) ? $status : 1;
+
+		if(isset($status) && !empty($status)){
+			if(!$this->Cardholder->Cardholderstatus->exists($status)){
+				throw new NotFoundException(__('Invalid card holder status'));
+			}			
+			$this->set('status', $status);
+			
+		}else{			
+			throw new NotFoundException(__('Invalid Request, please try again.'));			
+		}
+		
+	}
+	
+	
 	public function countCardHolders($status = null){
 		
 	}
@@ -678,7 +723,7 @@ class CardholdersController extends AppController {
 										data-toggle="modal"
 										data-target="#view_card_detail_"										
 										class="fs-10 card-link-modal nooutline td_'.$t['Cardholder']['id'].'"><i class="fas fa-eye fa-lg"></i></a>									
-									<a href="'.$this->webroot.'cardholders/edit/'.$t['Cardholder']['id'].'" title="Make Changes" class="fs-10"><i class="fas fa-edit fa-lg"></i></a>'									
+									<a href="'.$this->webroot.'cardholders/edit_cardholder/'.$t['Cardholder']['id'].'" title="Make Changes" class="fs-10"><i class="fas fa-edit fa-lg"></i></a>'									
 									//'<a href="'.$this->webroot.'cardholders/view/'.$t['Cardholder']['id'].'/'.$view_template.'" title="View Details" class="fs-10 tab_table_link" data-toggle="modal" data-target="#view_content_"><i class="fas fa-eye fa-lg"></i></a>'
 									//<a href="'.$this->webroot.'cards/viewClientCard/'.$t['Cardholder']['id'].'/'.$t['Cardholder']['refid'].'" title="View Card" class="fs-14" data-toggle="modal" data-target="#view_card_detail_"><i class="fas fa-address-card fa-lg"></i></a>'									
 								); 
@@ -750,6 +795,44 @@ class CardholdersController extends AppController {
 		$this->set(compact('cardholderstatuses'));
 		
 	}
+	
+	public function view_no_card($id = null, $stat_view=null) {
+		if (!$this->Cardholder->exists($id)) {
+			throw new NotFoundException(__('Invalid cardholder'));
+		}
+		
+		
+		
+		$options = array('conditions' => array('Cardholder.' . $this->Cardholder->primaryKey => $id));
+		$this->set('cardholder', $this->Cardholder->find('first', $options));		
+		$this->request->data = $this->Cardholder->find('first', $options);
+		
+		$this->set('active_cards', $this->getHoldersCard(1, $id));
+		$this->set('inactive_cards', $this->getHoldersCard(2, $id));
+		$this->set('suspended_cards', $this->getHoldersCard(3, $id));
+		$this->set('lost_cards', $this->getHoldersCard(4, $id));
+		$this->set('block_cards', $this->getHoldersCard(5, $id));
+		$this->set('perblock_cards', $this->getHoldersCard(6, $id));
+		$this->Cardholder->Card->recursive=0;
+		$this->set('card', $this->Cardholder->Card->find('first', array(
+			'conditions' => array(
+				'Card.cardholder_id' => $id,
+				
+			),
+			'fields' => array(
+					'Card.*', 'Cardholder.*', 'Cardtype.*', 'Product.*'
+			)
+		)));
+		
+		$cardholderstatuses = $this->Cardholder->Cardholderstatus->find('list', array('conditions' => array(
+				'NOT(Cardholderstatus.id)' => array($this->request->data['Cardholder']['cardholderstatus_id'], 3) 
+			)
+		));
+		
+		$this->set(compact('cardholderstatuses'));
+		
+	}
+	
 	
 	public function view_pending($id = null) {
 		if (!$this->Cardholder->exists($id)) {
@@ -1002,7 +1085,8 @@ class CardholdersController extends AppController {
 		$cardstatuses = $this->Cardholder->Card->Cardstatus->find('list');
 		//$cardholderstatuses = $this->Cardholder->Cardholderstatus->find('list');
 		$cardtypes = $this->Cardholder->Card->Cardtype->find('list');
-		$this->set(compact('cards', 'cardtypes', 'cardstatuses'));
+		$institutions = $this->Cardholder->Institution->find('list');
+		$this->set(compact('cards', 'cardtypes', 'cardstatuses', 'institutions'));
 	}
 
 /**
@@ -1060,11 +1144,43 @@ class CardholdersController extends AppController {
 			$options = array('conditions' => array('Cardholder.' . $this->Cardholder->primaryKey => $id));
 			$this->request->data = $this->Cardholder->find('first', $options);
 		}
+		
+		$institutions = $this->Cardholder->Institution->find('list');
+		$this->set(compact('institutions'));
+		
 		//$cards = $this->Cardholder->Card->find('list');
 		//$cardtypes = $this->Cardholder->Card->Cardtype->find('list');
 		//$cardholderstatuses = $this->Cardholder->Cardholderstatus->find('list');
 		//$this->set(compact('cardtypes', 'cardholderstatuses'));
 	}
+	
+	
+	public function edit_cardholder($id = null) {
+		if (!$this->Cardholder->exists($id)) {
+			throw new NotFoundException(__('Invalid cardholder'));
+		}
+		
+		$this->set('author', $this->Auth->user('username'));
+		
+		if ($this->request->is(array('post', 'put'))) {
+			
+			if ($this->Cardholder->save($this->request->data)) {				
+				$this->Message->msgCommonUpdate();
+				return $this->redirect(array('action' => 'edit_cardholder', $id));
+			} else {			
+				$this->Message->msgCommonError();
+			}
+		} else {
+			$options = array('conditions' => array('Cardholder.' . $this->Cardholder->primaryKey => $id));
+			$this->request->data = $this->Cardholder->find('first', $options);
+		}
+		
+		
+		
+		$institutions = $this->Cardholder->Institution->find('list');
+		$this->set(compact('institutions'));
+	}
+	
 	
 	
 	private function getTheAuthor(){

@@ -21,6 +21,7 @@
 	<?php echo $this->App->tHead($this->Lang->index_header('applications')); ?>	
 	<?php foreach ($cardapplications as $key => $app): ?>
 		<tr>			
+			<td><?php echo $this->App->formatSequence($app['Cardholder']['id']); ?></td>							
 			<td><?php echo $app['Cardholder']['cif_no']; ?></td>							
 			<td><?php echo $app['Cardapplication']['registration']; ?></td>										
 			<td><?php echo $app['Cardapplication']['processed_date']; ?></td>							

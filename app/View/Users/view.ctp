@@ -1,6 +1,6 @@
 <?php //echo $this->App->CommonHeader('Access Information'); ?>
 <div class="cardholders view col-md-12">
-		<div class="col-md-5 nopadding text-left m-t-10">
+		<div class="col-md-4 nopadding text-left m-t-10">
 	
 			<?php 
 
@@ -37,11 +37,17 @@
 			<div class="clear"></div>
 			
 		<h3 class="bold text-left nopadding nomargin">
-			<?php echo $user['User']['name']; ?> 
-			<div class="fs-10"><?php echo $user['Status']['name']; ?> | Last Login : <?php echo !empty($user['User']['last_login']) ? date('Y M d h:i A', strtotime($user['User']['last_login'])) : ' - None - '; ?> | Expires On : <?php echo !empty($user['User']['pass_expire']) ? date('Y M d h:i A', strtotime($user['User']['pass_expire'])) : ' - None - '; ?></div>
+			<?php echo $user['User']['firstname'].' '.$user['User']['lastname']; ?> 
+			<div class="fs-10"><?php echo $user['Status']['name']; ?></div>
+			<div class="fs-10">
+				Last Login : <?php echo !empty($user['User']['last_login']) ? date('Y M d h:i A', strtotime($user['User']['last_login'])) : ' - None - '; ?>
+			</div>
+			<div class="fs-10">
+				Password Expires On : <?php echo !empty($user['User']['pass_expire']) ? date('Y M d h:i A', strtotime($user['User']['pass_expire'])) : ' - None - '; ?>
+			</div>
 		</h3>
 	</div>
-	<div class="col-md-7 nopadding text-left m-t-10 ">
+	<div class="col-md-8 nopadding text-left m-t-10 ">
 		<div class="btn-group pull-right">
 			<?php echo $this->App->showUserStatusAction($user['User']['status_id'], $user['User']['refid'], $user['User']['id']); ?>
 				<?php 

@@ -19,15 +19,12 @@
 				'index'
 			),
 			$this->App->ShowNormaLink(
-				'Enroll New Account', 		
+				'Link Card', 		
 				'cardholders', 
-				'add'
+				'tag_cards'
 			),
 			$this->App->ShowNormaLink(
-				'Upload Scanned ID'				
-			),
-			$this->App->ShowNormaLink(
-				'Generate Card'
+				'Select Card'
 			)	
 		)
 	);
@@ -35,11 +32,11 @@
 
 <div class="cardholders form col-md-12">
 	
-	
-	<?php echo $this->App->registrationLink(3); ?>
+
+	<?php //echo $this->App->registrationLink(3); ?>
 	<?php echo $this->Form->create('Card', array('class' => 'data-form noborder', 'id' => 'new_card_form')); ?>
 	
-	<div class="col-md-12 bg-gray p-t-5 p-b-5 p-l-5 p-r-5 m-t-10">
+	<div class="col-md-12 bg-gray p-t-10 p-b-10 p-l-5 p-r-5">
 		<h5 class="bold bold nomargin"><?php echo __('Card Holder'); ?></h5>
 		<h4 class="nomargin bold">
 			<div class="col-md-10 nopadding">
@@ -49,12 +46,12 @@
 			</div>
 			<div class="col-md-2 nopadding">
 			<?php 
-				echo $this->App->Showbutton(
+				/*echo $this->App->Showbutton(
 					'Skip Card Link', 
 					'btn-violet pull-right fs-10', 
 					'cardholders', 
 					'add/new'
-				);
+				);*/
 			?>
 			</div>
 			<div class="clear"></div>
@@ -203,7 +200,7 @@
 			
 		</div>
 	</div>	
-	<?php echo $this->App->formEnd('Finish', '#new_card_form'); ?> 
+	<?php echo $this->App->formEnd('Save Card', '#new_card_form'); ?> 
 	
 	<div class="clear"></div>
 

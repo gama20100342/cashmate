@@ -49,6 +49,26 @@
 </div>
 
 
+ <div class="modal" id="_new_cardholder_noti" data-backdrop="static" keyboard="false">
+        <div class="modal-dialog modal-sm m-t-180">
+			<div class="modal-content">       
+				<div class="modal-header">
+						<i class='fa fa-bell fa-lg fa-fw'></i> System Notification
+				</div>
+				<div class="modal-body text-center m-b-15">
+					<p class="text-success fs-12 m-b-20 m-t-10 message_modal_text_nc"></p>
+					<?php echo $this->Html->link('Ok', array(
+						'controller' => 'cardholders', 
+						'action' => 'add/new'
+						),
+						array('class' => 'btn btn-success btn-sm')); ?>
+				</div>
+			</div>
+		</div> 
+   </div>
+   
+   
+   
 <?php
 	
 	echo $this->Html->script('jquery.uploadfile.min', array('inline' => true)); 
@@ -74,7 +94,11 @@
 					var _data  = JSON.parse(data);
 					if(_data.status=="success"){
 						//$(".upload_message").html(_data.message);
-						window.location.href="'.$this->webroot.'cards/add/'.$holderid.'/'.$refid.'/'.$status.'"
+						//window.location.href="'.$this->webroot.'cards/add/'.$holderid.'/'.$refid.'/'.$status.'"
+						//window.location.href="'.$this->webroot.'cardholders/add"
+						$(".message_modal_text_nc").html(_data.message);
+						$("#_new_cardholder_noti").modal("show");
+						
 					}else{
 						$(".upload_message").html(_data.message);	
 					}

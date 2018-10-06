@@ -19,6 +19,9 @@ class Cardholder extends AppModel {
 			$this->data['Cardholder']['fullname'] = $this->data['Cardholder']['firstname'].' '.$this->data['Cardholder']['middlename'].' '.$this->data['Cardholder']['lastname'];
 		}
 				
+		
+		$this->data['Cardholder']['registration'] = date('Y-m-d H:i:s');
+		
 		/*if(!empty($this->data['Cardholder']['birthdate'])){
 			$this->data['Cardholder']['birthdate'] = date('Y-m-d', strtotime($this->data['Cardholder']['birthdate']));
 		}*/
@@ -107,11 +110,62 @@ class Cardholder extends AppModel {
 			'email' => array(
 				'rule' => array('email'),
 				'message'=> 'Invalid email address',
-				'allowEmpty' => true
+				'allowEmpty' => false
+			),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
 			)
 		),
 		
 		'present_address' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'pre_street_no' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'pre_street_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'pre_subd_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'pre_brgy' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'pre_town_city' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'pre_street_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),'pre_province' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'pre_country' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				'message'=> 'This field is required'
@@ -136,6 +190,18 @@ class Cardholder extends AppModel {
 			)
 		),
 		'idpresented' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'institution_id' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'product_id' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				'message'=> 'This field is required'
@@ -225,6 +291,20 @@ class Cardholder extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		),
+		'Institution' => array(
+			'className' => 'Institution',
+			'foreignKey' => 'institution_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Product' => array(
+			'className' => 'Product',
+			'foreignKey' => 'product_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 	

@@ -35,6 +35,40 @@ class InstitutionsController extends AppController {
 	
 	}
 	
+	public function getproducts($intid){
+		$this->layout = ' ajax';
+		$this->view = false;
+		$this->autoRender = false; 
+		
+		
+		$this->Institution->recursive=-1;
+		$int = $this->Institution->findById($intid);
+		$_int = array();
+		$_data = array();
+		$_int = explode(",", $int['Institution']['product_id']);
+		
+		$this->Institution->Product->recursive=-1;
+		$products = $this->Institution->Product->find('all', array(
+				'conditions' => array(
+					'Product.id' => $_int
+				)
+			)
+		);
+		
+		foreach($products as $p):
+			$_data[] = array(
+				'id' => $p['Product']['id'],
+				'name' => $p['Product']['name']
+			);
+		endforeach;
+		
+		return json_encode(
+			array(
+				"_data" => $_data
+			)
+		);
+	}
+	
 	public function index() {
 		$this->Institution->recursive =-1;
 		

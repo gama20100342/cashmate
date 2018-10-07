@@ -3,25 +3,36 @@
 	'Manage Cards'
 ); ?>
 
-<div class="col-md-12 nopadding">
+
+<?php echo $this->App->CommonBreadcrumbs(
+	array(
+			$this->App->ShowNormaLink(
+				'Cards', 		
+				'cards', 
+				'index'
+			),			
+			$this->App->ShowNormaLink(
+				'Manage'
+			)	
+		)
+	);
+?>
+
+<div class="col-md-12">
 	
 			<ul class="nav nav-pills">
-			  <li class="active"><a data-toggle="tab" href="#active_card" total="#total_active" table-id="#active_card_" controller="cards" status = "1" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Active</a></li>	  
-			   <li><a data-toggle="tab" href="#inactive_card" table-id="#inactive_card_" total="#total_inactive" controller="cards" status = "2" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Inactive</a></li>
-			  <li><a data-toggle="tab" href="#suspended_card" table-id="#suspended_card_" total="#total_suspended" controller="cards" status = "3" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Stolen </a></li>	  	
-			  <li><a data-toggle="tab" href="#lost_card" 	table-id="#lost_card_" total="#total_lost" controller="cards" status = "4" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Lost</a></li>
-			  <li><a data-toggle="tab" href="#block_card" 	table-id="#block_card_" total="#total_blocked" controller="cards" status = "5" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Temporary Blocked</a></li>
-			  <li><a data-toggle="tab" href="#perblock_card" 	table-id="#perblock_card_" total="#total_perblocked" controller="cards" status = "6" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Permanent Blocked</a></li>
+			  <li class="<?php echo (isset($status) && $status==1) ? 'active' : ''; ?>"><a data-toggle="tab" href="#active_card" total="#total_active" table-id="#active_card_" controller="cards" status = "1" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Active</a></li>	  
+			  <li class="<?php echo (isset($status) && $status==2) ? 'active' : ''; ?>"><a data-toggle="tab" href="#inactive_card" table-id="#inactive_card_" total="#total_inactive" controller="cards" status = "2" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Inactive</a></li>
+			  <li class="<?php echo (isset($status) && $status==3) ? 'active' : ''; ?>"><a data-toggle="tab" href="#suspended_card" table-id="#suspended_card_" total="#total_suspended" controller="cards" status = "3" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Stolen </a></li>	  	
+			  <li class="<?php echo (isset($status) && $status==4) ? 'active' : ''; ?>"><a data-toggle="tab" href="#lost_card" 	table-id="#lost_card_" total="#total_lost" controller="cards" status = "4" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Lost</a></li>
+			  <li class="<?php echo (isset($status) && $status==5) ? 'active' : ''; ?>"><a data-toggle="tab" href="#block_card" 	table-id="#block_card_" total="#total_blocked" controller="cards" status = "5" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Temporary Blocked</a></li>
+			  <li class="<?php echo (isset($status) && $status==6) ? 'active' : ''; ?>"><a data-toggle="tab" href="#perblock_card" 	table-id="#perblock_card_" total="#total_perblocked" controller="cards" status = "6" class="btn btn-violet btn-sm noradius"><i class="fas fa-credit-card fa-lg"></i> Permanent Blocked</a></li>
 			 
 			</ul>
 		
 		<div class="tab-content">
-			 <div id="active_card" class="tab-pane fade in active">
+			 <div id="active_card" class="tab-pane fade in <?php echo (isset($status) && $status==1) ? 'active' : ''; ?>">
 				
-				<?php echo $this->App->CommonHeader(
-					'Total as Of <span class="bold">'.date('d M Y h:i A').'</span> [ <span class="fs-10 text-violet" id="total_active">0</span> ]',
-					$this->App->exportButtonWithStatus('csv', 'cards', 1)
-				); ?>
 				
 			
 				<div class="related col-md-12 nopadding">	
@@ -33,13 +44,9 @@
 
 			  </div>
 			  
-			  <div id="inactive_card" class="tab-pane fade in">
+			  <div id="inactive_card" class="tab-pane fade in <?php echo (isset($status) && $status==2) ? 'active' : ''; ?>">
 				
-				<?php echo $this->App->CommonHeader(
-					'Total as Of <span class="bold">'.date('d M Y h:i A').'</span> [ <span class="fs-10 text-violet" id="total_inactive">0</span> ]',
-					$this->App->exportButtonWithStatus('csv', 'cards', 2)
-				); ?>
-				
+			
 				
 				<div class="related col-md-12 nopadding">	
 						
@@ -51,13 +58,9 @@
 
 			  </div>
 			  
-			 <div id="suspended_card" class="tab-pane fade in">
+			 <div id="suspended_card" class="tab-pane fade in <?php echo (isset($status) && $status==3) ? 'active' : ''; ?>">
 				
-				
-				<?php echo $this->App->CommonHeader(
-					'Total as Of <span class="bold">'.date('d M Y h:i A').'</span> [ <span class="fs-10 text-violet" id="total_suspended">0</span> ]',
-					$this->App->exportButtonWithStatus('csv', 'cards', 3)
-				); ?>
+			
 				
 				<div class="related col-md-12 nopadding">	
 						<?php echo $this->App->tHead($this->Lang->index_header('cards'), 'suspended_card_'); ?>										
@@ -68,13 +71,9 @@
 			  </div>
 			  
 			  
-			  <div id="lost_card" class="tab-pane fade in">
+			  <div id="lost_card" class="tab-pane fade in <?php echo (isset($status) && $status==4) ? 'active' : ''; ?>">
 
 				
-				<?php echo $this->App->CommonHeader(
-					'Total as Of <span class="bold">'.date('d M Y h:i A').'</span> [ <span class="fs-10 text-violet" id="total_lost">0</span> ]',
-					$this->App->exportButtonWithStatus('csv', 'cards', 4)
-				); ?>
 				
 			
 				
@@ -86,12 +85,8 @@
 
 			  </div>
 			  
-			  <div id="block_card" class="tab-pane fade in">
+			  <div id="block_card" class="tab-pane fade in <?php echo (isset($status) && $status==5) ? 'active' : ''; ?>">
 				
-				<?php echo $this->App->CommonHeader(
-					'Total as Of <span class="bold">'.date('d M Y h:i A').'</span> [ <span class="fs-10 text-violet" id="total_blocked">0</span> ]',
-					$this->App->exportButtonWithStatus('csv', 'cards', 5)
-				); ?>
 				
 				<div class="related col-md-12 nopadding">	
 						<?php echo $this->App->tHead($this->Lang->index_header('cards'), 'block_card_'); ?>					
@@ -101,12 +96,9 @@
 
 			  </div>
 			  
-			  <div id="perblock_card" class="tab-pane fade in">
+			  <div id="perblock_card" class="tab-pane fade in <?php echo (isset($status) && $status==6) ? 'active' : ''; ?>">
 				
-				<?php echo $this->App->CommonHeader(
-					'Total as Of <span class="bold">'.date('d M Y h:i A').'</span> [ <span class="fs-10 text-violet" id="total_perblocked">0</span> ]',
-					$this->App->exportButtonWithStatus('csv', 'cards', 6)
-				); ?>
+				
 				
 				<div class="related col-md-12 nopadding">	
 						<?php echo $this->App->tHead($this->Lang->index_header('cards'), 'perblock_card_'); ?>					
@@ -145,8 +137,29 @@
 <?php
 	$controller = $this->webroot.'cards';
 	$action		= 'getCards';
-	$url 		= str_replace(" ", "", trim($controller.' / '.$action.'/1'));
-		
+	switch($status){
+		case "1":
+			$t_id = '#active_card_';
+		break;
+		case "2":
+			$t_id = '#inactive_card_';
+		break;
+		case "3":
+			$t_id = '#suspended_card_';
+		break;
+		case "4":
+			$t_id = '#lost_card_';
+		break;
+		case "5":
+			$t_id = '#block_card_';
+		break;
+		case "6":
+			$t_id = '#perblock_card_';
+		break;
+	}
+	
+	$url 		= str_replace(" ", "", trim($controller.' / '.$action.'/'.$status));
+	
 	echo $this->Js->Buffer('
 		
 		function get_transaction_data_via_modal(url, tableid){
@@ -198,7 +211,7 @@
 			
 		}
 		
-		function get_transaction_data(url, tableid, _total){
+		function get_transaction_data(url, tableid){
 			var _data = [];
 		
 			$.ajax({
@@ -234,7 +247,7 @@
 						}
 					});
 					
-					$(_total).html(_data.length);
+					//$(_total).html(_data.length);
 					
 					$(".card-link-modal").click( function(){
 							var _surl 		= $(this).attr("url");
@@ -288,7 +301,7 @@
 		
 		$(document).ready( function(){		
 			
-			get_transaction_data("'.$url.'", "#active_card_", "#total_active");
+			get_transaction_data("'.$url.'", "'.$t_id.'");
 			
 			$(".nav-pills").find("a").on("shown.bs.tab", function () {
 				var _table_id  		= $(this).attr("table-id");
@@ -301,7 +314,7 @@
 				if(_url !==""){
 					//$(_table_id).DataTable().destroy();
 					//$(_table_id + " tbody").empty();
-					get_transaction_data(_url, _table_id, _total);
+					get_transaction_data(_url, _table_id);
 				}else{
 					_error_message("show", "Unable to process your request at the moment, please try again later");
 				}

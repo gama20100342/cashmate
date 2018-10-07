@@ -45,6 +45,10 @@
 
 <?php 
 	echo $this->Js->buffer('
+		$("#_new_cardholder_noti").on("shown.bs.modal", function(){
+			$(this).appendTo("body");
+		});
+		
 		$(document).ready( function(){
 			$(".btnajaxsubmit").click( function(e){			
 			e.preventDefault();

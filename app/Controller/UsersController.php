@@ -63,6 +63,29 @@ class UsersController extends AppController {
 	}
 	
 	
+	public function getUserAvatar(){
+		
+		$this->User->Useravatar->recursive=-1;
+		$image = $this->User->Useravatar->find('first', array(
+				'conditions' => array(
+					'Useravatar.user_id' => $this->Auth->user('id'),
+					'Useravatar.refid' => $this->Auth->user('refid')
+				),
+				'fields' => array(
+					'Useravatar.image_file'				
+				),
+				'order' => array(
+					'Useravatar.id' => 'DESC'
+				),
+			)
+		);
+		
+		return  $image['Useravatar']['image_file'];
+		
+		
+	}
+	
+	
 	
 	
 	/*
@@ -335,10 +358,12 @@ class UsersController extends AppController {
 					//check if the account has no more attempts
 					//reset the attempts
 					if($this->resetTheUserAttempts() && $this->saveAttempts($this->Auth->user('username'), $this->Auth->user('id'), "success")){
+						$this->Session->write('User.avatar', $this->getUserAvatar());
+						
 						if($this->passwordHasExpired()){
 							$this->Message->msgError("Your pasword has expired, you must change it right now");
 							return $this->redirect(array('action' => 'changemypassword', $this->Auth->user('refid'), $this->Auth->user('id')));
-						}else{	
+						}else{								
 							return $this->redirect(array('controller' => 'cards', 'action' => 'dashboard'));
 						}
 					}else{
@@ -555,6 +580,7 @@ class UsersController extends AppController {
 	}
 		
 	public function logout(){
+		//$this->Session->destroy();
 		return $this->redirect($this->Auth->logout());
 	}
 

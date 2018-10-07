@@ -1,4 +1,34 @@
 <?php //echo $this->App->CommonHeader('Card Details'); ?>
+<?php echo $this->App->CommonHeaderWithButton(
+	'Update Account Information',
+		$this->App->Showbutton(
+			'Back', 
+			'btn-violet pull-right fs-10', 
+			'cards', 
+			'index/'.$card['Card']['cardstatus_id']
+		)	
+	);
+?>
+
+<?php echo $this->App->CommonBreadcrumbs(
+	array(
+			$this->App->ShowNormaLink(
+				'Cards', 		
+				'cards', 
+				'index'
+			),
+			$this->App->ShowNormaLink(
+				'Manage', 		
+				'cards', 
+				'index'
+			),
+			$this->App->ShowNormaLink(
+				'View Card'
+			)	
+		)
+	);
+?>
+
 <div class="cards view col-md-12 m-b-20 m-t-10">
 	<div class="pull-left col-md-6 nopadding">
 			<?php if(!empty($cardstatuses)): ?>
@@ -82,7 +112,7 @@
 					);*/
 			?>
 			
-			<a href="#" data-dismiss="modal" class="pull-right btn btn-xs btn-danger fs-9"><i class="fas fa-times fa-lg"></i> Close</a>
+			<a href="#" data-dismiss="modal" class="pull-right btn btn-xs btn-danger fs-9 nodisplay"><i class="fas fa-times fa-lg"></i> Close</a>
 			<a href="#" data-dismiss="modal" class="pull-right m-r-3 btn btn-xs btn-success fs-9 nodisplay"><i class="fas fa-credit-card fa-lg"></i> Load Card</a>
 			<div class="clear"></div>
 			
@@ -141,11 +171,7 @@
 	</ul>
 	<div class="tab-content">
 		 <div id="trans_purchase" class="tab-pane fade in active">
-			<?php echo $this->App->CommonHeader(
-				'Purchase Transactions',
-				$this->App->exportButton('csv', 'cards'),
-				$this->App->exportButton('print', 'cards')
-			); ?>
+			
 	
 			
 			<div class="related col-md-12 nopadding">	
@@ -158,11 +184,7 @@
 		  </div>
 		  
 		 <div id="trans_balinq" class="tab-pane fade in">
-			<?php echo $this->App->CommonHeader(
-				'Balance Inquiry Transactions',
-				$this->App->exportButton('csv', 'cards'),
-				$this->App->exportButton('print', 'cards')
-			); ?>
+			
 			
 			<div class="related col-md-12 nopadding">		
 					<?php echo $this->App->tHead($this->Lang->index_header('balance_inquiry'), 'trans_balinq_'); ?>					
@@ -175,11 +197,7 @@
 		  </div>
 		  
 		  <div id="trans_billspay" class="tab-pane fade in">
-			<?php echo $this->App->CommonHeader(
-				'Bills Payment Transactions',
-				$this->App->exportButton('csv', 'cards'),
-				$this->App->exportButton('print', 'cards')
-			); ?>
+			
 		
 			
 			<div class="related col-md-12 nopadding">	
@@ -193,11 +211,6 @@
 		  </div>
 		  
 		   <div id="trans_cashout" class="tab-pane fade in">
-			<?php echo $this->App->CommonHeader(
-				'Cash Out Transactions',
-				$this->App->exportButton('csv', 'cards'),
-				$this->App->exportButton('print', 'cards')
-			); ?>
 			
 			<div class="related col-md-12 nopadding">		
 					<?php echo $this->App->tHead($this->Lang->index_header('cashouts'), 'cashouts_trans_'); ?>					
@@ -209,11 +222,7 @@
 		  </div>
 		  
 		   <div id="trans_changepin" class="tab-pane fade in">
-			<?php echo $this->App->CommonHeader(
-				'Changed PIN Transactions',
-				$this->App->exportButton('csv', 'cards'),
-				$this->App->exportButton('print', 'cards')
-			); ?>
+			
 			
 			<div class="related col-md-12 nopadding">	
 						<?php echo $this->App->tHead($this->Lang->index_header('change_pin'), 'changepins_trans_'); ?>					
@@ -225,11 +234,7 @@
 		  </div>
 		  
 		   <div id="trans_loadcash" class="tab-pane fade in">
-			<?php echo $this->App->CommonHeader(
-				'Load Cash Transactions',
-				$this->App->exportButton('csv', 'cards'),
-				$this->App->exportButton('print', 'cards')
-			); ?>
+			
 			
 			<div class="related col-md-12 nopadding">	
 						<?php echo $this->App->tHead($this->Lang->index_header('load_cash'), 'load_cash_'); ?>					
@@ -262,4 +267,176 @@
 </div>
 <div class="clear"></div>
 
-	
+<?php
+
+
+
+	$controller = $this->webroot.'transpurchases';
+	$action		= 'getTransactions';
+	$url 		= str_replace(" ", "", trim($controller.' / '.$action.'/'.$card['Card']['cardno']));
+		
+	echo $this->Js->Buffer('
+		
+		function get_transaction_data_via_modal(url, tableid){
+			var _data = [];
+			$.ajax({
+				method		: "GET",
+				url			: url,
+				cache		: false,				
+				beforeSend	: function(){
+					_loading_message("show");
+				},
+				success		: function(data){
+					
+					var _mdata = JSON.parse(data);
+					
+					//console.log(_mdata);
+					
+						$.each(_mdata.data, function(i, item){
+							_data.push(item);
+						});
+				
+						$(tableid).DataTable({
+							data: _data,
+							destroy: true,							
+							"scrollY": "200px",
+							"scrollCollapse": false,
+							/*"columnDefs": [{
+								"targets": [4, 8],
+								"orderable": false
+							}],*/
+							"lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
+							"bStateSave": false, 
+							"pagingType": "full_numbers"
+							
+						});
+
+				},
+				error		: function(err1, err2, err3){
+					_error_message("show", "Service is not yet available this time");
+				
+				},
+				complete	: function(){
+					_loading_message("hide");
+					
+				},
+				
+			});
+			
+			
+		}
+		
+		function get_transaction_data(url, tableid, _total){
+			var _data = [];
+		
+			$.ajax({
+				method		: "GET",
+				url			: url,
+				cache		: false,				
+				beforeSend	: function(){
+					_loading_message("show");					
+				},
+				success		: function(data){
+					$.each(JSON.parse(data).data, function(i, item){
+						_data.push(item);
+					});
+					
+					$(tableid).DataTable({
+						data: _data,
+						destroy: true,						
+						"scrollY": "200px",
+						"scrollCollapse": false,
+						"columnDefs": [{
+							"targets": [5],
+							"orderable": false
+						}],
+						"lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
+						"bStateSave": false, 
+						"pagingType": "full_numbers",
+						"fnPreDrawCallback": function(){					
+							var info =  $(this).DataTable().page.info();
+							$("#table_page_Info_search").html(
+								"Page " +(info.page+1)+ " of " +info.pages+" Pages"
+							);
+							return true;
+						}
+					});
+					
+					$(_total).html(_data.length);
+					
+					$(".card-link-modal").click( function(){
+							var _surl 		= $(this).attr("url");
+							var _murl 		= $(this).attr("data-_murl");
+							var td_id 		= $(this).attr("data-td-id");
+							var _type 		= $(this).attr("data-_type");
+							var _cardno		= $(this).attr("data-cardno");	
+							
+							$.get(_surl, function(resp){
+								$("#modal_req_content").html(resp).promise().done( function(){
+									if(_type=="card"){
+										updateCardStatusLinks(td_id); //transaction pills
+										
+										get_transaction_data_via_modal(_murl, "#purchase_trans_");	
+						
+										$(".nav-pills-view").find("a").on("shown.bs.tab", function () {			
+											var _table_id  		= $(this).attr("table-id");
+											var _controller 	= $(this).attr("controller");												
+											var _action 		= "getTransactions";																				
+											var _url			= '.$this->webroot.' + _controller + "/" + _action + "/" + _cardno;
+											if(_url !==""){
+												
+												//$(_table_id).DataTable().destroy();
+												//$(_table_id + " tbody").empty();
+												get_transaction_data_via_modal(_url, _table_id);
+											}else{
+												_error_message("show", "Unable to process your request at the moment, please try again later");
+											}
+										});
+									}else{
+										updateCardStatusLinks(td_id); 
+									}
+									
+									ajaxFormSubmit();
+									
+								});
+							
+								
+							})
+						});
+						
+				},
+				error		: function(err1, err2, err3){
+					_error_message("show", "Service is not yet available this time");
+				},
+				complete	: function(){
+					_loading_message("hide");
+				},				
+			});
+		}
+		
+		$(document).ready( function(){		
+			
+			get_transaction_data_via_modal("'.$url.'", "#purchase_trans_");	
+						
+										$(".nav-pills-view").find("a").on("shown.bs.tab", function () {			
+											var _table_id  		= $(this).attr("table-id");
+											var _controller 	= $(this).attr("controller");												
+											var _action 		= "getTransactions";																				
+											var _cardno			= $(this).attr("data-cardno");	
+											var _url			= '.$this->webroot.' + _controller + "/" + _action + "/" + _cardno;
+											if(_url !==""){
+												
+												//$(_table_id).DataTable().destroy();
+												//$(_table_id + " tbody").empty();
+												get_transaction_data_via_modal(_url, _table_id);
+											}else{
+												_error_message("show", "Unable to process your request at the moment, please try again later");
+											}
+										});
+			
+			ajaxFormSubmit();
+			updateCardStatusLinks(td_id); 
+			
+		});
+	');
+?>

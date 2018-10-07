@@ -61,7 +61,7 @@
 						<li><?php echo $this->App->pageLink('Received Cards', 'cards', 'received_cards'); ?></li>										
 						<li class="nodisplay"><?php echo $this->App->pageLink('Pending / For Approval <span class="badge fs-8">100</span> ', 'cardholders', 'index'); ?></li>										
 						<li class="separator-submenu"></li>
-						<li><a href="#">Tag Card</a></li>																
+						<li><?php echo $this->App->pageLink('Link Card', 'cardholders', 'tag_cards'); ?></li>																																
 					</ul>
 			</li>
 				
@@ -84,7 +84,8 @@
 			<!--/li-->
 			
 			
-		<li class="dropdown">
+			<li><?php echo $this->App->pageLink('<i class="fas fa-calculator fa-lg"></i> Transactions', 'cards', 'show_all_transactions'); ?></li>	
+		<!--li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-animations="fadeIn fadeInRight fadeInLeft"><i class="fas fa-calculator fa-lg"></i> Transactions  <span class="caret"></span></a>
 					<ul class="dropdown-menu noborder noradius" role="menu">		
 						<li><?php echo $this->App->pageLink('Balance Inquiry', 'transbalanceinquiries', 'index'); ?></li>						
@@ -96,7 +97,7 @@
 						<li><?php echo $this->App->pageLink('Withdrawals', 'transwithdrawals', 'index'); ?></li>																		
 						<li><?php echo $this->App->pageLink('Interbank Fund Transfer', 'transinterbanks', 'index'); ?></li>	
 					</ul>
-			</li>
+			</li-->
 		
 			
 			

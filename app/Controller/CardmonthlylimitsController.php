@@ -167,8 +167,6 @@ class CardmonthlylimitsController extends AppController {
 				throw new NotFoundException(__('Invalid parameter'));
 			}
 			
-		
-			
 			$this->set('productid', $productid);
 			$this->set('duration', $duration);
 			$this->set('author', $this->getAuthor());

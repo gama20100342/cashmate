@@ -3,12 +3,18 @@
 		<div class="col-md-12 nopadding text-center m-t-10">
 	
 		<?php 
+				if(!empty( $this->Session->read('User.avatar')) && file_exists(APP.'webroot/' .  $this->Session->read('User.avatar'))){
+						$image = $this->webroot . $this->Session->read('User.avatar');
+					}else{
+						$image = $this->webroot.'img/avatar.png';						
+					}
+					
 
-				if(empty($user['Useravatar']['user_id'])){
-					echo $this->Html->link($this->html->image('avatar.png', array('class' => 'img-50')), 
+				
+					echo $this->Html->link($this->App->showUserPicture($image, '80', ''), 
 						array(
 							'controller' => 'useravatars',  
-							'action' => 'add', 
+							'action' => 'edit_my_avatar', 
 							$user['User']['refid'], $user['User']['firstname'], $user['User']['lastname']
 						),
 						array(
@@ -18,19 +24,7 @@
 					);
 					
 					
-				}else{
-					echo $this->Html->link($this->html->image($user['Useravatar']['image_file'], array('class' => 'img-50')), 
-						array(
-							'controller' => 'useravatars',  
-							'action' => 'add', 
-							$user['User']['refid'], $user['User']['firstname'], $user['User']['lastname']
-						),
-						array(
-							'escape' => false,
-							'class'	=> 'text-center',
-						)
-					);					
-				}
+				
 			
 			?>
 		</div>		

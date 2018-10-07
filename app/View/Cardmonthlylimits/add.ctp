@@ -81,13 +81,13 @@
 			array(
 				'input' => 'min_withdrawalvalue', 
 				'label' => 'Limit Cycle Value', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			),
 			array(
 				'input' => 'min_withdrawalfee', 
 				'label' => 'Limit Fees', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			)
 		));
@@ -100,13 +100,13 @@
 			array(
 				'input' => 'max_transvalue', 
 				'label' => 'Limit Cycle Value', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			),
 			array(
 				'input' => 'max_transfee', 
 				'label' => 'Limit Fees', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			)
 		));
@@ -122,13 +122,13 @@
 			array(
 				'input' => 'total_withdrawalvalue', 
 				'label' => 'Limit Cycle Value', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			),
 			array(
 				'input' => 'total_withdrawalfee', 
 				'label' => 'Limit Fees', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			)
 		));
@@ -141,13 +141,13 @@
 			array(
 				'input' => 'total_fundtransvalue', 
 				'label' => 'Limit Cycle Value', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			),
 			array(
 				'input' => 'total_fundtransfee', 
 				'label' => 'Limit Fees', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			)
 		));
@@ -160,13 +160,13 @@
 			array(
 				'input' => 'min_loadingvalue', 
 				'label' => 'Limit Cycle Value', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			),
 			array(
 				'input' => 'min_loadingfee', 
 				'label' => 'Limit Fees', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			)
 		));
@@ -182,13 +182,13 @@
 			array(
 				'input' => 'max_loadingvalue', 
 				'label' => 'Limit Cycle Value', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			),
 			array(
 				'input' => 'max_loadingfee', 
 				'label' => 'Limit Fees', 
-				'class' => 'currency_only',
+				'class' => 'numbers_only',
 				'wrapper' => 'col-md-6'
 			)
 		));

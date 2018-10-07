@@ -61,7 +61,7 @@
 				
 				
 				array('input' => 'tel_no', 'label' => 'Home Tel No.', 'class' => 'numbers_only tel_no', 'wrapper' => 'col-md-2 nopadding'),
-				array('input' => 'contact_no', 'label' => 'Mobile No. (+63)', 'class' => 'numbers_only contact_no', 'wrapper' => 'col-md-2 nopadding', 'clear' => 1),				
+				array('input' => 'contact_no', 'label' => 'Mobile No. (+63) *', 'class' => 'numbers_only contact_no', 'wrapper' => 'col-md-2 nopadding', 'clear' => 1),				
 				//array('input' => 'permanent_address', 'label' => 'Permanent Address', 'type' => 'text', 'class' => 'numbers_and_letters', 'wrapper' => 'col-md-6 nopadding', 'clear' => 1),
 				
 				array('input' => 'email_address', 'label' => 'Email Address', 'wrapper' => 'col-md-6 nopadding'),								
@@ -81,7 +81,7 @@
 		?>
 		</div>		
 		<div class="col-md-12 m-t-20">
-			<h5 class="bold text-danger nopadding nomargin"><?php echo __('Present Address'); ?></h5>
+			<h5 class="bold text-danger nopadding nomargin"><?php echo __('Present Address *'); ?></h5>
 			<?php
 				echo $this->App->showForminputs(array(		
 						array('input' => 'pre_street_no', 'label' => 'Street No.', 'type' => 'text', 'class' => 'pre_street_no numbers_and_letters', 'wrapper' => 'col-md-3 nopadding'),
@@ -96,7 +96,7 @@
 			?>
 		</div>
 		<div class="col-md-12 m-t-20">
-			<h5 class="bold text-danger nopadding nomargin"><?php echo __('Permanent Address'); ?></h5>			
+			<h5 class="bold text-danger nopadding nomargin"><?php echo __('Permanent Address *'); ?></h5>			
 			<label class="radio-inline text-uppercase text-success fs-8 bold col-md-12 nomargin nopadding">
 						<input 
 						type="checkbox" 						
@@ -144,7 +144,7 @@
 			?>
 			
 		</div>
-		<div class="col-md-12 m-t-20">			
+		<div class="col-md-12 m-t-20 nodisplay">			
 			<h5 class="bold text-danger nopadding nomargin"><?php echo __('Institution & Product Information'); ?></h5>
 			<?php		
 				echo $this->App->showForminputs(array(					

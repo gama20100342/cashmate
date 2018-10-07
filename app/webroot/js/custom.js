@@ -72,7 +72,8 @@ $(document).ready( function() {
 		
     	$(".numbers_only").inputmask({"regex" : "[0-9-]+"});    	
     	//$(".numbers_only").inputmask({"regex" : "/^(\+|-)?(\d*\.?\d*)$/"});
-		$(".currency_only").inputmask("currency", {rightAlign: true, prefix: "₱ ", suffix: ""});
+		$(".currency_only").inputmask({"regex" : "[0-9-]+"});
+		//$(".currency_only").inputmask("currency", {rightAlign: true, prefix: "₱ ", suffix: ""});
 		
 		//$(".currency_only").inputmask("numeric", {
 		/*$(".currency_only").inputmask("numeric", {				

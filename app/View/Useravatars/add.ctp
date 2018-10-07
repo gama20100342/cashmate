@@ -97,12 +97,14 @@
 				onSuccess:function(files,data,xhr,pd){
 					//$(".upload_message").html(JSON.parse(data).message);	
 					_responseMsg(JSON.parse(data).message);			
-					$(".main_form").hide();
-					$("#form_action").removeClass("nodisplay");
+					_loading_message("hide");
+					//$(".main_form").hide();
+					//$("#form_action").removeClass("nodisplay");
 				},
 				onError: function(files,status,errMsg,pd){
 					//$(".upload_message").html(status + " - " + errMsg);		
 					_responseMsg(status + " - " + errMsg);	
+					_loading_message("hide");
 				},
 				showProgress: false,
 				autoSubmit: false,
@@ -118,6 +120,7 @@
 			});
 			
 			$(".submitpic").click( function(){
+				_loading_message("show");
 				uploadObj.startUpload();
 			});
 		});

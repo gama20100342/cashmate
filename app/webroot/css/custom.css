@@ -234,6 +234,22 @@ img.img-50{
     width: 50px !important;
     height: 50px !important;    
 }
+
+img.img-70{
+    width: 70px !important;
+    height: 70px !important;    
+}
+
+img.img-80{
+    width: 80px !important;
+    height: 80px !important;    
+}
+
+img.img-90{
+    width: 90px !important;
+    height: 90px !important;    
+}
+
 /*----------------
 | BACKGROUN COLOR
 ----------------*/
@@ -283,8 +299,6 @@ Footer
 	/*opacity: 0.8;
     filter: alpha(opacity=80); /* For IE8 and earlier */
 }
-
-
 
 .btn{
 	border-radius: 0 !important;

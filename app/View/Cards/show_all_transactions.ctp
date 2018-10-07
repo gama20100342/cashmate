@@ -29,11 +29,11 @@
 			"Transaction Date/Time",
 			"Card No.",			
 			"Trace No.",			
-			"Transaction Type",			
-			"Processing Code",			
+			"Type",			
+			"Code",			
 			"Channel",			
 			"Terminal ID",			
-			"Institution",			
+			//"Institution",			
 			"Response",			
 			"Amount"
 		)
@@ -47,8 +47,7 @@
 			<td><?php echo $t['type']; ?></td>
 			<td><?php echo $t['code']; ?></td>
 			<td><?php echo $t['channel']; ?></td>
-			<td><?php echo $t['device']; ?></td>
-			<td><?php echo $t['institution']; ?></td>
+			<td><?php echo $t['device']; ?></td>			
 			<td><?php echo $t['resp']; ?></td>
 			<td><?php echo $t['amount']; ?></td>			
 		</tr>
@@ -62,13 +61,14 @@
 	echo $this->Js->Buffer('
 		$(document).ready( function(){
 			$("#active_card_").DataTable({												
-				"scrollY": "200px",
+				"scrollY": "260px",
+				 "order": [[ 0, "desc" ]],
 				"scrollCollapse": false,
 				/*"columnDefs": [{
 					"targets": [4, 8],
 					"orderable": false
 				}],*/
-				"lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
+				"lengthMenu": [[8, 10, 25, 50, 100, -1], [8, 10, 25, 50, 100, "All"]],
 				"bStateSave": false, 
 				"pagingType": "full_numbers"						
 			});

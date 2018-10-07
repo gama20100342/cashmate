@@ -64,7 +64,7 @@ class CardsController extends AppController {
 		if(!empty($_balanaceinquries)){		
 		foreach($_balanaceinquries as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transbalanceinquiry']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transbalanceinquiry']['transdate'])),
 					'cardno' 		=> $t['Transbalanceinquiry']['cardno'],
 					'trace'			=> $t['Transbalanceinquiry']['trace_number'],									
 					'type' 			=> strtoupper($t['Transbalanceinquiry']['transaction_type']),									
@@ -82,7 +82,7 @@ class CardsController extends AppController {
 		if(!empty($_purchases)){		
 		foreach($_purchases as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transpurchase']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transpurchase']['transdate'])),
 					'cardno' 		=> $t['Transpurchase']['cardno'],
 					'trace'			=> $t['Transpurchase']['trace_number'],									
 					'type' 			=> strtoupper($t['Transpurchase']['transaction_type']),									
@@ -100,7 +100,7 @@ class CardsController extends AppController {
 		if(!empty($_withdrawals)){
 		foreach($_withdrawals as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transwithdrawal']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transwithdrawal']['transdate'])),
 					'cardno' 		=> $t['Transwithdrawal']['cardno'],
 					'trace'			=> $t['Transwithdrawal']['trace_number'],									
 					'type' 			=> strtoupper($t['Transwithdrawal']['transaction_type']),									
@@ -119,7 +119,7 @@ class CardsController extends AppController {
 		if(!empty($_cashouts)){		
 		foreach($_cashouts as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transcashout']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transcashout']['transdate'])),
 					'cardno' 		=> $t['Transcashout']['cardno'],
 					'trace'			=> $t['Transcashout']['trace_number'],									
 					'type' 			=> strtoupper($t['Transcashout']['transaction_type']),									
@@ -138,7 +138,7 @@ class CardsController extends AppController {
 		if(!empty($_cashloads)){		
 		foreach($_cashloads as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transloadcash']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transloadcash']['transdate'])),
 					'cardno' 		=> $t['Transloadcash']['cardno'],
 					'trace'			=> $t['Transloadcash']['trace_number'],									
 					'type' 			=> strtoupper($t['Transloadcash']['transaction_type']),									
@@ -156,7 +156,7 @@ class CardsController extends AppController {
 		if(!empty($_changepins)){			
 		foreach($_changepins as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transchangepin']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transchangepin']['transdate'])),
 					'cardno' 		=> $t['Transchangepin']['cardno'],
 					'trace'			=> $t['Transchangepin']['trace_number'],									
 					'type' 			=> strtoupper($t['Transchangepin']['transaction_type']),									
@@ -175,7 +175,7 @@ class CardsController extends AppController {
 		if(!empty($_billspayments)){			
 		foreach($_billspayments as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transbillspayment']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transbillspayment']['transdate'])),
 					'cardno' 		=> $t['Transbillspayment']['cardno'],
 					'trace'			=> $t['Transbillspayment']['trace_number'],									
 					'type' 			=> strtoupper($t['Transbillspayment']['transaction_type']),									
@@ -193,7 +193,7 @@ class CardsController extends AppController {
 		if(!empty($_interbanks)){
 		foreach($_interbanks as $t):
 			$__trans[] = array(
-					'transdate' 	=> date('Y M d h:i A', strtotime($t['Transinterbank']['transdate'])),
+					'transdate' 	=> date('Y-m-d h:i:s A', strtotime($t['Transinterbank']['transdate'])),
 					'cardno' 		=> $t['Transinterbank']['cardno'],
 					'trace'			=> $t['Transinterbank']['trace_number'],									
 					'type' 			=> strtoupper($t['Transinterbank']['transaction_type']),									
@@ -1102,27 +1102,34 @@ class CardsController extends AppController {
  
 	public function index($status=null) {		
 		$this->Card->recursive = 0;		
+		
+		if(empty($status)){
+			$status = 1;
+		}
+		
 		if(isset($status) && !empty($status)){
 			if(!$this->Card->Cardstatus->exists($status)){
 				throw new NotFoundException(__('Invalid card status'));
 			}
+			
 			$options  = array(
 				'conditions' => array(				
 					'Card.cardstatus_id' => $status
 				),
 				'order' => array(				
-					'Card.last_transaction' => 'DESC'
+					'Card.registration' => 'DESC'
 				)
 			);
 		}else{
 			$options  = array(
 				'order' => array(				
-					'Card.last_transaction' => 'DESC'
+					'Card.registration' => 'DESC'
 				)
 			);	
 		}
 		
 		$this->set('cards', $this->Card->find('all', $options));
+		$this->set('status', $status);
 		
 		
 	}
@@ -1234,6 +1241,10 @@ class CardsController extends AppController {
 				$cardstatuses = $this->Card->Cardstatus->find('list', array('conditions' => array('Cardstatus.id >' => 2), 'order' => array('Cardstatus.id' => 'ASC')));
 			}
 			
+			if($card['Card']['cardstatus_id']==2){
+				$cardstatuses = $this->Card->Cardstatus->find('list', array('conditions' => array('Cardstatus.id' => 1), 'order' => array('Cardstatus.id' => 'ASC')));
+			}
+			
 			if($card['Card']['cardstatus_id']==5){
 				$cardstatuses = $this->Card->Cardstatus->find('list', array('conditions' => array('Cardstatus.id' => 1), 'order' => array('Cardstatus.id' => 'ASC')));
 			}
@@ -1262,7 +1273,8 @@ class CardsController extends AppController {
 						'Card.cardstatus_id' => $status
 					),
 					'order' => array(				
-						'Card.id' => 'DESC'
+						//'Card.id' => 'DESC',
+						'Card.registration' => 'DESC'
 					),
 					'fields' => array(
 						'Card.cardno',
@@ -1294,11 +1306,11 @@ class CardsController extends AppController {
 							
 							foreach($cards as $t):
 								if($status==2){
-									$tag = ' <a href="#" title="Tag This Card to an Account" class="fs-10" data-toggle="modal" data-target="#maintenance"><i class="fas fa-tag fa-lg"></i></a>';
+									//$tag = ' <a href="#" title="Tag This Card to an Account" class="fs-10" data-toggle="modal" data-target="#maintenance"><i class="fas fa-tag fa-lg"></i></a>';
 								}	
 
 								if($status==3 || $status==4){
-									$tag = ' <a href="#" title="Replace this card" class="fs-10" data-toggle="modal" data-target="#maintenance"><i class="fas fa-plus-square fa-lg"></i></a>';	
+									//$tag = ' <a href="#" title="Replace this card" class="fs-10" data-toggle="modal" data-target="#maintenance"><i class="fas fa-plus-square fa-lg"></i></a>';	
 								}
 								
 								$data[] = array(
@@ -1321,26 +1333,23 @@ class CardsController extends AppController {
 									//$t['Card']['last_transaction'],																			
 									//number_format($t['Card']['balance'], 2, ".", ","),		
 									$t['Cardstatus']['name'],
-									'<a href="#" 
-										url="'.$this->webroot.'cards/viewClientCard/'.$t['Cardholder']['id'].'/'.$t['Cardholder']['refid'].'" 
+									'<a 
+										href="'.$this->webroot.'cards/viewClientCard/'.$t['Cardholder']['id'].'/'.$t['Cardholder']['refid'].'" 
 										title="View Card" 
 										data-td-id = "td_'.$t['Cardholder']['id'].'"
-										data-_murl = "'.$this->webroot.'transpurchases/getTransactions/'.$t['Card']['cardno'].'"
-										data-toggle="modal"
+										data-_murl = "'.$this->webroot.'transpurchases/getTransactions/'.$t['Card']['cardno'].'"										
 										data-cardno="'.$t['Card']['cardno'].'"
-										data-_type = "card"										
-										data-target="#view_card_detail_"
+										data-_type = "card"																				
 										class="fs-11 card-link-modal nooutline td_'.$t['Cardholder']['id'].'"><i class="fas fa-eye fa-lg"></i></a>
 									'.$tag.'
-									<a href="#" 
-										url="'.$this->webroot.'cardholders/view/'.$t['Cardholder']['id'].'" 
+									<a 
+										href="'.$this->webroot.'cardholders/view/'.$t['Cardholder']['id'].'" 
 										title="View Card Holder" 
 										data-td-id = "td_'.$t['Cardholder']['id'].'"
 										data-_murl = "'.$this->webroot.'cardholders/view/'.$t['Cardholder']['id'].'"
 										data-_type = "holder"
-										data-toggle="modal"
-										data-target="#view_card_detail_"										
-										class="fs-11 card-link-modal nooutline td_'.$t['Cardholder']['id'].'"><i class="fas fa-user fa-lg"></i></a>'
+								
+										class="nodisplay fs-11 card-link-modal nooutline td_'.$t['Cardholder']['id'].'"><i class="fas fa-user fa-lg"></i></a>'
 										
 								);
 

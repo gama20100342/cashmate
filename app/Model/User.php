@@ -298,23 +298,24 @@ class User extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
-	);
-	
-	public $hasOne = array(
+		),
 		'Useravatar' => array(
 			'className' => 'Useravatar',
 			'foreignKey' => 'user_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
+			'fields' => array('Useravatar.image_file'),
+			'order' => array('Useravatar.id' => 'DESC'),
+			'limit' => 1,
 			'offset' => '',
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
 		)
+	);
+	
+	public $hasOne = array(
+		
 	);
 
 }

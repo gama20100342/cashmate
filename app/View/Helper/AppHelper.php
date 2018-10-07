@@ -35,6 +35,10 @@ class AppHelper extends Helper {
 
     public $helpers = array('Html', 'Form');
 	
+	public function getUserAvatar(){
+		return $this->requestAction(array('controller' => 'useravatars', 'action' => 'getAvatar')); 
+	}
+	
 	public function alignData($label, $data, $left=null, $right=null){
 		
 		if(empty($left)){
@@ -94,7 +98,7 @@ class AppHelper extends Helper {
     public function showUserPicture($image, $size_class, $opt_class){
         
         if(isset($image) && !empty($image)){
-            //$user_image = $this->Html->image($image, array('class' => 'img-'.$size_class.' '.$opt_class));
+           // $user_image = $this->Html->image($image, array('class' => 'img-'.$size_class.' '.$opt_class));
 			$user_image = '<img src="'.$image.'" class="img-'.$size_class.' '.$opt_class.'" />'; 
         }else{            
             $user_image =  '<div class="user-no-pics-'.$size_class.' '.$opt_class.' bg-666"></div>';

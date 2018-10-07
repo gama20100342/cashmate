@@ -117,13 +117,13 @@ class Cardholder extends AppModel {
 				'message'=> 'This field is required'
 			)
 		),
-		
+		/*
 		'present_address' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				'message'=> 'This field is required'
 			)
-		),
+		),*/
 		'pre_street_no' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
@@ -171,6 +171,54 @@ class Cardholder extends AppModel {
 				'message'=> 'This field is required'
 			)
 		),
+		'per_street_no' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'per_street_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'per_subd_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'per_brgy' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'per_town_city' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'per_street_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'per_province' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
+		'per_country' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message'=> 'This field is required'
+			)
+		),
 		'contact_no' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
@@ -194,7 +242,7 @@ class Cardholder extends AppModel {
 				'rule' => array('notEmpty'),
 				'message'=> 'This field is required'
 			)
-		),
+		)/*,
 		'institution_id' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
@@ -206,7 +254,7 @@ class Cardholder extends AppModel {
 				'rule' => array('notEmpty'),
 				'message'=> 'This field is required'
 			)
-		)
+		)*/
 		/*,
 		'tin' => array(
 			'notEmpty' => array(
